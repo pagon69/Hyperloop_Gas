@@ -13,5 +13,8 @@ UCLASS()
 class HYPERLOOP_API AAuraCharacter : public ACharacterBase
 {
 	GENERATED_BODY()
+
+public:
+	AAuraCharacter();
 	
 };
