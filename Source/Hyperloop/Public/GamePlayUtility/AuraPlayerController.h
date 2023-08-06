@@ -9,7 +9,7 @@
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
-
+class IMouseTargetInterface;
 
 
 /**
@@ -28,6 +28,8 @@ protected:
 
 	virtual void SetupInputComponent() override;
 	
+	virtual void PlayerTick(float DeltaTime) override;
+	
 private:
 
 	UPROPERTY(EditAnywhere, Category= "Input")
@@ -37,4 +39,12 @@ private:
 	TObjectPtr<UInputAction> MoveAction;
 
 	void Move(const FInputActionValue& InputActionValue);
+
+	void CursorTrace();
+
+	//used to track the things under the cursor current and next actor
+	IMouseTargetInterface* LastActor;
+	IMouseTargetInterface* ThisActor;
+
+
 };

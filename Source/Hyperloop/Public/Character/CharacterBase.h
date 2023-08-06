@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "CharacterBase.generated.h"
 
+#define CUSTOM_DEPTH_RED 250
+
+
 UCLASS(Abstract)
 class HYPERLOOP_API ACharacterBase : public ACharacter
 {
@@ -25,5 +28,5 @@ protected:
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	TObjectPtr<UStaticMeshComponent> StaticWeapon;
 	
-	
+	//int CustomStenceilValue = 250;
 };

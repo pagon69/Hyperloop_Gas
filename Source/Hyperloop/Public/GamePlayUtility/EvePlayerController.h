@@ -9,9 +9,12 @@
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class IMouseTargetInterface;
+
 /**
  * 
  */
+
 UCLASS()
 class HYPERLOOP_API AEvePlayerController : public APlayerController
 {
@@ -24,6 +27,8 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual void SetupInputComponent() override;
+
+	virtual void PlayerTick(float DeltaTime) override;
 	
 private:
 
@@ -34,6 +39,12 @@ private:
 	UPROPERTY(EditAnywhere, Category= "Input")
 	TObjectPtr<UInputAction> MoveAction;
 
-	void Move(const FInputActionValue& InputActionValue);
+	void Move(const FInputActionValue& InputActionValue) ;
+
+	void CursorTrace();
+
+	//used to track the things under the cursor current and next actor
+	TObjectPtr<IMouseTargetInterface> LastActor;
+	TObjectPtr<IMouseTargetInterface> ThisActor;
 	
 };
