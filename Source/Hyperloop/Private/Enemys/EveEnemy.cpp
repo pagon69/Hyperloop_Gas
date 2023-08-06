@@ -17,8 +17,18 @@ AEveEnemy::AEveEnemy()
 	//attribute set and ability system declarations
 	AbilitySystemComponent = CreateDefaultSubobject<UEveAbilitySystemComponent> ("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	
 	AttributeSet = CreateDefaultSubobject<UEveAttributeSet>("AttributeSet");
+	
+}
+
+void AEveEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+
+	check(AbilitySystemComponent); // check for crash here
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
 
 void AEveEnemy::HighLightActor()

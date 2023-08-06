@@ -18,10 +18,14 @@ class HYPERLOOP_API AEveEnemy : public ACharacterBase, public IMouseTargetInterf
 public:
 	AEveEnemy();
 
+	
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;
 	
 protected:
+
+	virtual void BeginPlay() override;
+	
 	//for secondary items like shields
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	TObjectPtr<UStaticMeshComponent> StaticShield;

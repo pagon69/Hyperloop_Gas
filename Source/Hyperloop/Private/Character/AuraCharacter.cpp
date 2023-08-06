@@ -2,7 +2,8 @@
 
 
 #include "Character/AuraCharacter.h"
-
+#include "AbilitySystemComponent.h"
+#include "Character/AuraPlayerState.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 AAuraCharacter::AAuraCharacter()
@@ -15,5 +16,43 @@ AAuraCharacter::AAuraCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
+
+	//AbilitySystemComponent->getabilitysystemcomponent
 	
+}
+
+void AAuraCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	//init ability actor info for server 
+	InitAbilityActorInfo();  /* this fails on server everytime but works on client */
+}
+
+void AAuraCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	//init ability actor info for client
+	InitAbilityActorInfo();
+}
+
+void AAuraCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	
+}
+
+void AAuraCharacter::InitAbilityActorInfo()
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>(); //get the current player state
+
+	//check(AuraPlayerState);  // make sure no null pointer
+
+	if(AuraPlayerState)
+	{
+		AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
+
+		AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
+		AttributeSet = AuraPlayerState->GetAttributeSet();
+	}
 }

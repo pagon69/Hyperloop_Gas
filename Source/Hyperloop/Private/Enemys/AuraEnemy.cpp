@@ -12,11 +12,19 @@ AAuraEnemy::AAuraEnemy()
 	//attribute set and ability system - not full built out
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent> ("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
-	
-	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
+	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 	
-		
+}
+
+void AAuraEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+
+	check(AbilitySystemComponent); // first place to check for crash
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	
 }
 
 void AAuraEnemy::HighLightActor()

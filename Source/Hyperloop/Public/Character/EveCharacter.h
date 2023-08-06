@@ -19,6 +19,9 @@ class HYPERLOOP_API AEveCharacter : public ACharacterBase
 
 public:
 	AEveCharacter();
+
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
 	
 protected:
 
@@ -29,7 +32,7 @@ protected:
 	TObjectPtr<UCameraComponent> Camera;
 	
 private:
-	
+	void InitAbilityActorInfo();
 
 	
 };

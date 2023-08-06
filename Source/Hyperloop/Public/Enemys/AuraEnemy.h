@@ -20,11 +20,16 @@ class HYPERLOOP_API AAuraEnemy : public ACharacterBase, public IMouseTargetInter
 	
 public:
 
+	
+
+	//enemy interfaces 
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;
 	
 protected:
 
+	virtual void BeginPlay() override;
+	
 private:
 	//int CustomStenceilValue = 250;
 };

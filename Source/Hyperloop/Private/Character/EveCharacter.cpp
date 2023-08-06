@@ -4,6 +4,8 @@
 #include "Character/EveCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Character/EvePlayerState.h"
+#include "AbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 
@@ -32,5 +34,38 @@ AEveCharacter::AEveCharacter()
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
 	
+	
+}
+
+void AEveCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	//init ability actor info for server  /* this fails on server everytime but works on client */
+	InitAbilityActorInfo();
+	
+}
+
+void AEveCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	
+	//init ability actor info for client
+	InitAbilityActorInfo();
+}
+
+void AEveCharacter::InitAbilityActorInfo()
+{
+	AEvePlayerState* EvePlayerState = GetPlayerState<AEvePlayerState>(); //get the current player state
+
+	//check(EvePlayerState);  // make sure no null pointer
+
+	if(EvePlayerState)
+	{
+		EvePlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(EvePlayerState, this);
+
+		AbilitySystemComponent = EvePlayerState->GetAbilitySystemComponent();
+		AttributeSet = EvePlayerState->GetAttributeSet();
+	}
 	
 }

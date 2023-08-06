@@ -4,6 +4,7 @@
 #include "Character/AuraPlayerState.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "Character/AuraCharacter.h"
 
 
 AAuraPlayerState::AAuraPlayerState()
@@ -12,6 +13,9 @@ AAuraPlayerState::AAuraPlayerState()
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent> ("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+	
+	//AbilitySystemComponent->InitAbilityActorInfo(this, AAuraCharacter);
 	
 	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 	
