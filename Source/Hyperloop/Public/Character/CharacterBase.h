@@ -27,6 +27,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	TObjectPtr<UStaticMeshComponent> StaticWeapon;
+
 	
-	//int CustomStenceilValue = 250;
+	
 };
