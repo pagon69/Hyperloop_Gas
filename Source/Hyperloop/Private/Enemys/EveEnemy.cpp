@@ -2,6 +2,8 @@
 
 
 #include "Enemys/EveEnemy.h"
+#include "AbilitySystem/EveAbilitySystemComponent.h"
+#include "AbilitySystem/EveAttributeSet.h"
 
 AEveEnemy::AEveEnemy()
 {
@@ -11,6 +13,12 @@ AEveEnemy::AEveEnemy()
 	StaticShield->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block); // to set visablity channel to block to slow highlight
+
+	//attribute set and ability system declarations
+	AbilitySystemComponent = CreateDefaultSubobject<UEveAbilitySystemComponent> ("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+	
+	AttributeSet = CreateDefaultSubobject<UEveAttributeSet>("AttributeSet");
 }
 
 void AEveEnemy::HighLightActor()

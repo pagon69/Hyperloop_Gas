@@ -44,7 +44,7 @@ private:
 	void CursorTrace();
 
 	//used to track the things under the cursor current and next actor
-	TObjectPtr<IMouseTargetInterface> LastActor;
-	TObjectPtr<IMouseTargetInterface> ThisActor;
+	IMouseTargetInterface* LastActor;
+	IMouseTargetInterface* ThisActor;
 	
 };
