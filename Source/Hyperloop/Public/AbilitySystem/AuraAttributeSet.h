@@ -52,7 +52,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Mana, Category = "Vital Attributes")
 	FGameplayAttributeData Mana;
 
-	//can remove later when we learn about accessors
+	//can remove later when we learn about gameplay affects
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
 
 	
