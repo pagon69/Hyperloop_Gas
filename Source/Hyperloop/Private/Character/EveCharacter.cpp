@@ -7,6 +7,8 @@
 #include "Character/EvePlayerState.h"
 #include "AbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GamePlayUtility/EvePlayerController.h"
+#include "UI/HUD/EveHUD.h"
 
 
 AEveCharacter::AEveCharacter()
@@ -66,6 +68,16 @@ void AEveCharacter::InitAbilityActorInfo()
 
 		AbilitySystemComponent = EvePlayerState->GetAbilitySystemComponent();
 		AttributeSet = EvePlayerState->GetAttributeSet();
+
+		if (AEvePlayerController* EvePlayerController = Cast<AEvePlayerController>(GetController()))
+		{
+			if (AEveHUD* EveHUD = Cast<AEveHUD>(EvePlayerController->GetHUD()))
+			{
+				EveHUD->InitOverlay(EvePlayerController,EvePlayerState,AbilitySystemComponent,AttributeSet);
+			}
+		}
+
+		
 	}
 	
 }

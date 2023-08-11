@@ -21,9 +21,11 @@ void AAuraPlayerController::BeginPlay()
 	//required for the enhanced input to work - just a boil-aplate thing
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 
-	check(Subsystem); //checks to make sure it is valid then sets
-	Subsystem->AddMappingContext(AuraContext, 0);
-
+	if(Subsystem) //checks to make sure it is valid then sets
+	{
+		Subsystem->AddMappingContext(AuraContext, 0);
+	}
+	
 	// setup stuff for mouse - check here for different mouse coursors
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
