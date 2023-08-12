@@ -11,3 +11,8 @@ void UEveWidgetController::SetWidgetControllerParameters(const FWidgetController
 	AttributeSet = WcParams.AttributeSet;
 	
 }
+
+void UEveWidgetController::BroadcastInitialValues()
+{
+	//update in deriaved classes
+}

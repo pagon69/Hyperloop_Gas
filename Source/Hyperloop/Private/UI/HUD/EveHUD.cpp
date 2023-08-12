@@ -33,6 +33,8 @@ void AEveHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyste
 	UOverlay_EveWidgetController* WidgetController = GetOverlayWidgetController(WidgetControllerParameters);
 
 	OverlayWidget->SetWidgetController(WidgetController);
+
+	WidgetController->BroadcastInitialValues(); //does broadcast here
 	
 	Widget->AddToViewport();
 	
