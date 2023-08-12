@@ -2,7 +2,6 @@
 
 
 #include "Actor/AuraAffectActor.h"
-
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemInterface.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -39,6 +38,10 @@ void AAuraAffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		UAuraAttributeSet* MutableAuraAttributeSet = const_cast<UAuraAttributeSet*>(AuraAttributesSet);
 		
 		MutableAuraAttributeSet->SetHealth(AuraAttributesSet->GetHealth() + 25.f );
+
+		//remove this later
+		MutableAuraAttributeSet->SetMana(AuraAttributesSet->GetMana() + 50.f);
+		
 		Destroy();
 	}
 	

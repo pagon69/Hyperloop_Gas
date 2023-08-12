@@ -6,10 +6,10 @@
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
-	InitHealth( 100.F);
+	InitHealth( 25.F);
 	InitMaxHealth( 100.F);
 	InitMana( 50.F);
-	InitMaxMana( 50.F);
+	InitMaxMana( 150.F);
 }
 
 //required for replication - register variables

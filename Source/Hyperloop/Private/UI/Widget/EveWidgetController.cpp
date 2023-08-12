@@ -2,6 +2,7 @@
 
 
 #include "UI/Widget/EveWidgetController.h"
+#include "GameplayEffectTypes.h"
 
 void UEveWidgetController::SetWidgetControllerParameters(const FWidgetControllerParameters& WcParams)
 {
@@ -15,4 +16,9 @@ void UEveWidgetController::SetWidgetControllerParameters(const FWidgetController
 void UEveWidgetController::BroadcastInitialValues()
 {
 	//update in deriaved classes
+}
+
+void UEveWidgetController::BindCallbacksToDependencies()
+{
+	//implement in followup classes
 }

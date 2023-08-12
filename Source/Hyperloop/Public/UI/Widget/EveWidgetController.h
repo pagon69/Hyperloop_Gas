@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "GameplayEffectTypes.h"
 #include "EveWidgetController.generated.h"
+
+
 
 class UAbilitySystemComponent;
 class UAttributeSet;
@@ -53,6 +56,8 @@ public:
 
 	virtual void BroadcastInitialValues();
 
+	virtual void BindCallbacksToDependencies();
+	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Widget Controller")
 	TObjectPtr<APlayerController> PlayerController;

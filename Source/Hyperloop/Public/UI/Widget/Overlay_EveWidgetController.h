@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "UI/Widget/EveWidgetController.h"
+#include "GameplayEffectTypes.h"
 #include "Overlay_EveWidgetController.generated.h"
-
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnArmorChangedSignature, float, NewArmor);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxArmorChangedSignature, float, NewMaxArmor);
@@ -25,6 +25,7 @@ class HYPERLOOP_API UOverlay_EveWidgetController : public UEveWidgetController
 public:
 
 	virtual void BroadcastInitialValues() override;
+	virtual void BindCallbacksToDependencies() override;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Asttributes")
 	FOnArmorChangedSignature OnArmorChanged;
@@ -45,5 +46,12 @@ public:
 	FOnMaxCPUChangedSignature OnMaxCPUChanged;
 	
 protected:
+	
+	void ArmorChanged(const FOnAttributeChangeData& Data) const;
+	void MaxArmorChanged(const FOnAttributeChangeData& Data) const;
+	void ShieldChanged(const FOnAttributeChangeData& Data) const;
+	void MaxShieldChanged(const FOnAttributeChangeData& Data) const;
+	void CPUChanged(const FOnAttributeChangeData& Data) const;
+	void MaxCPUChanged(const FOnAttributeChangeData& Data) const;
 	
 };

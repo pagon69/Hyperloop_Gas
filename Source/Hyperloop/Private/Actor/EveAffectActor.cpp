@@ -34,11 +34,16 @@ void AEveAffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 	if(ASCInterface)
 	{
 
-		const UEveAttributeSet* AuraAttributesSet =	Cast<UEveAttributeSet>(ASCInterface->GetAbilitySystemComponent()->GetAttributeSet(UEveAttributeSet::StaticClass()));
+		const UEveAttributeSet* EveAttributesSet =	Cast<UEveAttributeSet>(ASCInterface->GetAbilitySystemComponent()->GetAttributeSet(UEveAttributeSet::StaticClass()));
 
-		UEveAttributeSet* MutableAuraAttributeSet = const_cast<UEveAttributeSet*>(AuraAttributesSet);
+		UEveAttributeSet* MutableEveAttributeSet = const_cast<UEveAttributeSet*>(EveAttributesSet);
 		
-		//MutableAuraAttributeSet->SetHealth(AuraAttributesSet->GetHealth() + 25.f );
+		MutableEveAttributeSet->SetArmor(EveAttributesSet->GetArmor() + 25.f );
+		
+		MutableEveAttributeSet->SetCPU(EveAttributesSet->GetCPU() + 25.f );
+	
+		MutableEveAttributeSet->SetCPU(EveAttributesSet->GetCPU() + 25.f );
+
 		Destroy();
 	}
 	

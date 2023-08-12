@@ -15,6 +15,9 @@ UOverlay_AuraWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidge
 	{
 		OverlayWidgetController = NewObject<UOverlay_AuraWidgetController>(this, OverlayWidgetControllerClass);
 		OverlayWidgetController->SetWidgetControllerParams(WcParams);
+		
+		OverlayWidgetController->BindCallbacksToDependencies();
+
 		return  OverlayWidgetController;
 	}
 	return OverlayWidgetController;

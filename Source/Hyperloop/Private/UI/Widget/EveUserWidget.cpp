@@ -2,6 +2,7 @@
 
 
 #include "UI/Widget/EveUserWidget.h"
+#include "GameplayEffectTypes.h"
 
 void UEveUserWidget::SetWidgetController(UObject* InWidgetController)
 {

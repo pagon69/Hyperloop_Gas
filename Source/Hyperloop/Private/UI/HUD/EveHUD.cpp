@@ -14,6 +14,9 @@ UOverlay_EveWidgetController* AEveHUD::GetOverlayWidgetController(const FWidgetC
 	{
 		OverlayWidgetController = NewObject<UOverlay_EveWidgetController>(this, OverlayWidgetControllerClass);
 		OverlayWidgetController->SetWidgetControllerParameters(WcParams);
+
+		OverlayWidgetController->BindCallbacksToDependencies();
+		
 		return  OverlayWidgetController;
 	}
 	

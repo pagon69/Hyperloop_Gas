@@ -17,3 +17,8 @@ void UAuraWidgetController::BroadcastInitialValues()
 {
 	//override in direaved classes
 }
+
+void UAuraWidgetController::BindCallbacksToDependencies()
+{
+	//following classes will fill int
+}
