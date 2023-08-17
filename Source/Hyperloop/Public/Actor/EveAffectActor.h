@@ -24,11 +24,11 @@ protected:
 	virtual void BeginPlay() override;
 
 	
-	UPROPERTY(EditAnywhere, Category= "Applied Affects")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Applied Affects")
 	TSubclassOf<UGameplayEffect> InstanceGameplayEffectClass;
 
 	UFUNCTION(BlueprintCallable)
-	void ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass);
+	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
 	
 private:
 

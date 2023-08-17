@@ -9,11 +9,11 @@
 UEveAttributeSet::UEveAttributeSet()
 {
 	
-	InitArmor(25.f);
+	InitArmor(60.f);
 	InitMaxArmor(75.f);
 	InitShield(50.f);
 	InitMaxShield(150.f);
-	InitCPU(30.f);
+	InitCPU(50.f);
 	InitMaxCPU(100.f);
 	
 }
