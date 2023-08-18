@@ -10,10 +10,10 @@ UEveAttributeSet::UEveAttributeSet()
 {
 	
 	InitArmor(60.f);
-	InitMaxArmor(75.f);
+	InitMaxArmor(100.f);
 	InitShield(50.f);
 	InitMaxShield(150.f);
-	InitCPU(50.f);
+	InitCPU(10.f);
 	InitMaxCPU(100.f);
 	
 }
