@@ -28,6 +28,34 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	
 }
 
+//ideal place to clamp stuff
+void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+{
+	Super::PreAttributeChange(Attribute, NewValue);
+
+	if(Attribute == GetHealthAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.f,GetMaxHealth()); // clamps health to maxhealth
+	}
+	
+	if(Attribute == GetMaxHealthAttribute())
+	{
+		
+	}
+	
+	if(Attribute == GetManaAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.f,GetMaxMana());
+	}
+	
+	if(Attribute == GetMaxManaAttribute())
+	{
+		
+	}
+	
+	
+}
+
 
 //required boiler plate code
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const

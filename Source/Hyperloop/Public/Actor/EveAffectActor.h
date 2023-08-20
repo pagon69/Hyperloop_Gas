@@ -30,6 +30,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Applied Affects")
 	TSubclassOf<UGameplayEffect> DurationGameplayEffectClass;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Applied Affects")
+	TSubclassOf<UGameplayEffect> InfiniteGameplayEffectClass;
+
+	
 	UFUNCTION(BlueprintCallable)
 	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
 	
