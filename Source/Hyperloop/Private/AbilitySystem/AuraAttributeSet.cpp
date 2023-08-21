@@ -3,6 +3,9 @@
 
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Net/UnrealNetwork.h"
+#include "AbilitySystemComponent.h"
+#include "GameplayEffectExtension.h"
+
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
@@ -53,6 +56,22 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 		
 	}
 	
+	
+}
+
+void UAuraAttributeSet::PostGameplayEffectExecute( const FGameplayEffectModCallbackData &Data)
+{
+	Super::PostGameplayEffectExecute(Data);
+
+	UE_LOG(LogTemp, Warning, TEXT("whats in Data: %f"), GetHealth());
+	UE_LOG(LogTemp, Warning, TEXT("whats in Data: %f"), Data.EvaluatedData.Magnitude);
+
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		// This Gameplay Effect is changing Health. Apply it, but restrict the value first.
+		// In this case, Health's base value must be non-negative.
+		SetHealth(FMath::Max(GetHealth(), 0.0f));
+	}
 	
 }
 
