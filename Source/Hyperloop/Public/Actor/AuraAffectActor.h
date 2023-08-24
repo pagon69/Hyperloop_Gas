@@ -43,6 +43,10 @@ protected:
 	
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Applied Affects")
+	float ActorLevel = 1.f;
+	
+
 	/*          Instance variables                         */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Applied Affects")
 	TSubclassOf<UGameplayEffect> InstanceGameplayEffectClass;
