@@ -3,6 +3,7 @@
 
 #include "Character/AuraCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Character/AuraPlayerState.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GamePlayUtility/AuraPlayerController.h"
@@ -44,7 +45,7 @@ void AAuraCharacter::BeginPlay()
 	
 }
 
-void AAuraCharacter::InitAbilityActorInfo()
+void AAuraCharacter::InitAbilityActorInfo() 
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>(); //get the current player state
 
@@ -54,6 +55,8 @@ void AAuraCharacter::InitAbilityActorInfo()
 	{
 		AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
 
+		Cast<UAuraAbilitySystemComponent>(AuraPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
+		
 		AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 		AttributeSet = AuraPlayerState->GetAttributeSet();
 

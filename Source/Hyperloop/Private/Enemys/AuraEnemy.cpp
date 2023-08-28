@@ -23,9 +23,20 @@ void AAuraEnemy::BeginPlay()
 	Super::BeginPlay();
 
 	check(AbilitySystemComponent); // first place to check for crash
-	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	
+	InitAbilityActorInfo();
 }
+
+void AAuraEnemy::InitAbilityActorInfo()
+{
+	Super::InitAbilityActorInfo();
+
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+}
+
+
 
 void AAuraEnemy::HighLightActor()
 {

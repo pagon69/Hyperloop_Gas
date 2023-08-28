@@ -26,7 +26,9 @@ public:
 	UEveAttributeSet();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-	
+
+	//good for clmaping to avoid going above max health / armor or below zero 
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 
 	//the following 4 lines required per attribute
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Vital Attributes")
@@ -95,6 +97,7 @@ public:
 
 	/**********************    CPU        ***************************/
 protected:
-	
+
+private:
 	
 };

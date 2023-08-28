@@ -52,6 +52,7 @@ void AAuraAffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 	{
 		ActiveEffectHandles.Add(ActiveEffectHandle, TargetAbilitySystemComponent);
 	}
+
 	
 	/* code for an array of context effects */
 

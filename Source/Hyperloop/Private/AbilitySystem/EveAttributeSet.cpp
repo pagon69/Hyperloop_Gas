@@ -2,9 +2,11 @@
 
 
 #include "AbilitySystem/EveAttributeSet.h"
-#include "AbilitySystemComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
 #include "Net/UnrealNetwork.h"
-
+#include "AbilitySystemComponent.h"
+#include "GameplayEffectExtension.h"
+#include "GameFramework/Character.h"
 
 UEveAttributeSet::UEveAttributeSet()
 {
@@ -28,6 +30,34 @@ void UEveAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME_CONDITION_NOTIFY(UEveAttributeSet, MaxShield, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UEveAttributeSet, CPU, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UEveAttributeSet, MaxCPU, COND_None, REPNOTIFY_Always);
+	
+}
+
+//ideal place to clamp stuff
+
+void UEveAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+{
+	Super::PreAttributeChange(Attribute, NewValue);
+
+	if(Attribute == GetArmorAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.f,GetMaxArmor()); // clamps health to maxhealth
+	}
+	
+	if(Attribute == GetMaxArmorAttribute())
+	{
+		
+	}
+	
+	if(Attribute == GetShieldAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.f,GetMaxShield());
+	}
+	
+	if(Attribute == GetMaxShieldAttribute())
+	{
+		
+	}
 	
 }
 
@@ -63,3 +93,4 @@ void UEveAttributeSet::OnRep_MaxCPU(const FGameplayAttributeData& OldMaxCPU) con
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UEveAttributeSet, MaxCPU, OldMaxCPU);
 }
+
