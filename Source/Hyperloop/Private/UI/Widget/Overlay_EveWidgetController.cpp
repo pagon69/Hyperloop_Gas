@@ -8,7 +8,7 @@
 void UOverlay_EveWidgetController::BroadcastInitialValues()
 {
 	//can remove for this example
-	Super::BroadcastInitialValues();
+	//Super::BroadcastInitialValues();
 
 	const UEveAttributeSet* EveAttributeSet = CastChecked<UEveAttributeSet>(AttributeSet);
 

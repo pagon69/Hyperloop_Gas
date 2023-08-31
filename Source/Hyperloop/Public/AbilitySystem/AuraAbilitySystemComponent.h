@@ -6,6 +6,9 @@
 #include "AbilitySystemComponent.h"
 #include "AuraAbilitySystemComponent.generated.h"
 
+//how to declare delagates
+DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer&) /* Asset Tags */ 
+
 /**
  * 
  */
@@ -16,6 +19,8 @@ class HYPERLOOP_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
 
 public:
 	void AbilityActorInfoSet();
+
+	FEffectAssetTags EffectAssetTags; //declares the delegate function
 	
 protected:
 
