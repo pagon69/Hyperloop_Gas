@@ -54,19 +54,10 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 		NewValue = FMath::Clamp(NewValue, 0.f,GetMaxHealth()); // clamps health to maxhealth
 	}
 	
-	if(Attribute == GetMaxHealthAttribute())
-	{
-		
-	}
 	
 	if(Attribute == GetManaAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0.f,GetMaxMana());
-	}
-	
-	if(Attribute == GetMaxManaAttribute())
-	{
-		
 	}
 
 	if(Attribute == GetGhostHealthAttribute())
@@ -75,14 +66,6 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 
 		NewValue = FMath::InterpEaseInOut(GetGhostHealth(), GetHealth(),.5f,.5f);
 	}
-
-
-	if(Attribute == GetMaxGhostManaAttribute())
-	{
-		
-	}
-	
-
 	
 	
 }
@@ -130,7 +113,7 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 }
 
 
-
+//do clamps here also
 void UAuraAttributeSet::PostGameplayEffectExecute( const FGameplayEffectModCallbackData &Data)
 {
 	Super::PostGameplayEffectExecute(Data);
@@ -141,13 +124,30 @@ void UAuraAttributeSet::PostGameplayEffectExecute( const FGameplayEffectModCallb
 	FEffectProperties Props;
 	
 	SetEffectProperties(Data, Props);
+
+	if(Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		//GEngine->AddOnScreenDebugMessage(1,3.f,FColor::Red, FString::Printf(TEXT("Health: %f"), GetHealth()));
+
+		SetHealth(FMath::Clamp(GetHealth(), 0.f,GetMaxMana()));
+	}
+
+
+	if(Data.EvaluatedData.Attribute == GetManaAttribute())
+	{
+		
+		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
+		
+	}
+	
+
 	
 	//below can be used to monitor what is happening and a good view into code
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		// This Gameplay Effect is changing Health. Apply it, but restrict the value first.
 		// In this case, Health's base value must be non-negative.
-		SetHealth(FMath::Max(GetHealth(), 0.0f));
+		//SetHealth(FMath::Max(GetHealth(), 0.0f));
 	}
 	
 }
