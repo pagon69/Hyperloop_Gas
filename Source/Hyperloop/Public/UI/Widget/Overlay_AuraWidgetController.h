@@ -67,6 +67,21 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Asttributes")
 	FOnAttributeChangedSignature OnMaxManaChanged;
 
+
+	// ghost globe area
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Asttributes")
+	FOnAttributeChangedSignature OnGhostHealthChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Asttributes")
+	FOnAttributeChangedSignature OnMaxGhostHealthChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Asttributes")
+	FOnAttributeChangedSignature OnGhostManaChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Asttributes")
+	FOnAttributeChangedSignature OnMaxGhostManaChanged;
+	
+	
 	//for message widget - on change 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
 	FMessageWidgetRowSignature MessageWidgetRowDelegate;

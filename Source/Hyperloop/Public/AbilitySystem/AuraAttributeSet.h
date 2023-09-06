@@ -123,7 +123,54 @@ public:
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
 
-	/**********************     Max Mana         ***************************/
+	/**********************      Max Mana -          ***************************/
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_GhostHealth, Category = "Vital Attributes")
+	FGameplayAttributeData GhostHealth;
+
+	//can remove later when we learn about accessors
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, GhostHealth);
+	
+	UFUNCTION()
+	void OnRep_GhostHealth(const FGameplayAttributeData& OldGhostHealth) const;
+
+	/**********************     Ghost Health - trailing health bar       ***************************/
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxGhostHealth, Category = "Vital Attributes")
+	FGameplayAttributeData MaxGhostHealth;
+
+	//can remove later when we learn about accessors
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxGhostHealth);
+	
+	UFUNCTION()
+	void OnRep_MaxGhostHealth(const FGameplayAttributeData& OldMaxGhostHealth) const;
+
+	/**********************     Max Ghost Health         ***************************/
+
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_GhostMana, Category = "Vital Attributes")
+	FGameplayAttributeData GhostMana;
+
+	//can remove later when we learn about accessors
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, GhostMana);
+	
+	UFUNCTION()
+	void OnRep_GhostMana(const FGameplayAttributeData& OldGhostMana) const;
+
+	/**********************     Ghost mana - trailing health bar       ***************************/
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxGhostMana, Category = "Vital Attributes")
+	FGameplayAttributeData MaxGhostMana;
+
+	//can remove later when we learn about accessors
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxGhostMana);
+	
+	UFUNCTION()
+	void OnRep_MaxGhostMana(const FGameplayAttributeData& OldMaxGhostMana) const;
+
+	/**********************     Max Ghost mana         ***************************/
+	
+	
 	
 protected:
 	

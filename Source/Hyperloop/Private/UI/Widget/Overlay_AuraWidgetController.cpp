@@ -13,11 +13,20 @@ void UOverlay_AuraWidgetController::BroadcastInitialValues()
 
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
 
+	//normal health bar
 	OnHealthChanged.Broadcast(AuraAttributeSet->GetHealth());
 	OnMaxHealthChanged.Broadcast(AuraAttributeSet->GetMaxHealth());
 	OnManaChanged.Broadcast(AuraAttributeSet->GetMana());
 	OnMaxManaChanged.Broadcast(AuraAttributeSet->GetMaxMana());
 
+	//trailing ghost bar
+	OnGhostHealthChanged.Broadcast(AuraAttributeSet->GetGhostHealth());
+	OnMaxGhostHealthChanged.Broadcast(AuraAttributeSet->GetMaxGhostHealth());	
+	OnGhostManaChanged.Broadcast(AuraAttributeSet->GetGhostMana());
+	OnMaxGhostManaChanged.Broadcast(AuraAttributeSet->GetMaxGhostMana());
+
+
+	
 	//Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)
 	//[](){};
 	
@@ -63,6 +72,46 @@ void UOverlay_AuraWidgetController::BindCallbacksToDependencies()
 		}
 
 	);
+
+	//trailing ghost lambdas for changes
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetGhostHealthAttribute()).AddLambda(
+	[this](const FOnAttributeChangeData& Data)
+		{
+			OnGhostHealthChanged.Broadcast(Data.NewValue);
+		}
+
+	);
+
+	//trailing max ghost health lambda
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxGhostHealthAttribute()).AddLambda(
+	[this](const FOnAttributeChangeData& Data)
+		{
+			OnMaxGhostHealthChanged.Broadcast(Data.NewValue);
+		}
+
+	);
+
+
+	//trailing ghost mana lambdas for changes
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetGhostManaAttribute()).AddLambda(
+	[this](const FOnAttributeChangeData& Data)
+		{
+			OnGhostManaChanged.Broadcast(Data.NewValue);
+		}
+
+	);
+
+	//trailing max ghost mana lambda
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxGhostManaAttribute()).AddLambda(
+	[this](const FOnAttributeChangeData& Data)
+		{
+			OnMaxGhostManaChanged.Broadcast(Data.NewValue);
+		}
+
+	);
+	
+
+	
 
 	//the below can be used to replace the above call back functions which normally need to exsist for a delegate
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(

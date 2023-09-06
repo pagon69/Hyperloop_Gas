@@ -16,6 +16,15 @@ UAuraAttributeSet::UAuraAttributeSet()
 	InitMaxHealth( 100.F);
 	InitMana( 50.F);
 	InitMaxMana( 150.F);
+	
+	InitGhostHealth(50.f);
+	InitMaxGhostHealth(100.f);
+	InitGhostMana(75.f);
+	InitMaxGhostMana(150.f);
+
+	//GetGhostHealth();
+
+	
 }
 
 //required for replication - register variables
@@ -38,7 +47,8 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
 	Super::PreAttributeChange(Attribute, NewValue);
-
+	
+	
 	if(Attribute == GetHealthAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0.f,GetMaxHealth()); // clamps health to maxhealth
@@ -58,9 +68,25 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 	{
 		
 	}
+
+	if(Attribute == GetGhostHealthAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.f,GetMaxGhostHealth()); // clamps health to maxhealth
+
+		NewValue = FMath::InterpEaseInOut(GetGhostHealth(), GetHealth(),.5f,.5f);
+	}
+
+
+	if(Attribute == GetMaxGhostManaAttribute())
+	{
+		
+	}
+	
+
 	
 	
 }
+
 
 void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const
 {
@@ -115,10 +141,6 @@ void UAuraAttributeSet::PostGameplayEffectExecute( const FGameplayEffectModCallb
 	FEffectProperties Props;
 	
 	SetEffectProperties(Data, Props);
-
-
-
-
 	
 	//below can be used to monitor what is happening and a good view into code
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
@@ -152,3 +174,24 @@ void UAuraAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) 
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxMana, OldMaxMana);
 }
 
+
+
+void UAuraAttributeSet::OnRep_GhostHealth(const FGameplayAttributeData& OldGhostHealth) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, GhostHealth, OldGhostHealth);
+}
+
+void UAuraAttributeSet::OnRep_MaxGhostHealth(const FGameplayAttributeData& OldMaxGhostHealth) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxGhostHealth, OldMaxGhostHealth);
+}
+
+void UAuraAttributeSet::OnRep_GhostMana(const FGameplayAttributeData& OldGhostMana) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, GhostMana, OldGhostMana);
+}
+
+void UAuraAttributeSet::OnRep_MaxGhostMana(const FGameplayAttributeData& OldMaxGhostMana) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxGhostMana, OldMaxGhostMana);
+}
