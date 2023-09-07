@@ -170,6 +170,46 @@ public:
 
 	/**********************     Max Ghost mana         ***************************/
 	
+
+	/*
+	 * Primary Attributes
+	 */
+
+	//Strenght attribute boiler plate
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strenght, Category = "Primary Attributes")
+	FGameplayAttributeData Strenght;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Strenght);
+
+	UFUNCTION()
+	void OnRep_Strenght(const FGameplayAttributeData& OldStrenght) const;
+
+
+	//Intelligence attribute boiler plate
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Intelligence, Category = "Primary Attributes")
+	FGameplayAttributeData Intelligence;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Intelligence);
+
+	UFUNCTION()
+	void OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const;
+
+
+	//Dexterity attribute boiler plate
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Vigor, Category = "Primary Attributes")
+	FGameplayAttributeData Vigor;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Vigor);
+
+	UFUNCTION()
+	void OnRep_Vigor(const FGameplayAttributeData& OldVigor) const;
+
+
+	//Resilence attribute boiler plate
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Resilence, Category = "Primary Attributes")
+	FGameplayAttributeData Resilence;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resilence);
+
+	UFUNCTION()
+	void OnRep_Resilence(const FGameplayAttributeData& OldResilence) const;
+	
 	
 	
 protected:

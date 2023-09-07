@@ -28,7 +28,7 @@ public:
 protected:
 
 	//attribute set and ability system - not full built out
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()
