@@ -2,7 +2,8 @@
 
 
 #include "Character/CharacterBase.h"
-
+#include "GameplayEffect.h"
+#include "AbilitySystemComponent.h"
 
 ACharacterBase::ACharacterBase()
 {
@@ -35,6 +36,19 @@ void ACharacterBase::BeginPlay()
 
 void ACharacterBase::InitAbilityActorInfo()
 {
+}
+
+//this function generates the needed components for a base character to use the ability system effect handle
+void ACharacterBase::InitializePrimaryAttributes() const
+{
+	check(IsValid(GetAbilitySystemComponent())); // do we have an ability system component ?
+	check(DefaultPrimaryAttributes); //checks if this has been set on the character
+	
+	 FGameplayEffectContextHandle MyContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	 FGameplayEffectSpecHandle MySpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultPrimaryAttributes, 1.f,MyContextHandle);
+
+	//remember that to get the Spec from the spec handle you have to go to Data.Get() and dereference so *
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*MySpecHandle.Data.Get(),GetAbilitySystemComponent());
 }
 
 
