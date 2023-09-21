@@ -38,18 +38,25 @@ void ACharacterBase::InitAbilityActorInfo()
 {
 }
 
-//this function generates the needed components for a base character to use the ability system effect handle
-void ACharacterBase::InitializePrimaryAttributes() const
+void ACharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float level) const
 {
 	check(IsValid(GetAbilitySystemComponent())); // do we have an ability system component ?
-	check(DefaultPrimaryAttributes); //checks if this has been set on the character
-	
-	 FGameplayEffectContextHandle MyContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
-	 FGameplayEffectSpecHandle MySpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultPrimaryAttributes, 1.f,MyContextHandle);
+	check(GameplayEffectClass); //checks if this has been set on the character
+
+	FGameplayEffectContextHandle MyContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	FGameplayEffectSpecHandle MySpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffectClass, level,MyContextHandle);
 
 	//remember that to get the Spec from the spec handle you have to go to Data.Get() and dereference so *
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*MySpecHandle.Data.Get(),GetAbilitySystemComponent());
 }
+
+void ACharacterBase::InitializeDefaultAttributes() const
+{
+	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
+	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
+}
+
+
 
 
 

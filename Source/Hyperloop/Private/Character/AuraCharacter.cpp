@@ -60,7 +60,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 		AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 		AttributeSet = AuraPlayerState->GetAttributeSet();
 
-		InitializePrimaryAttributes();
+		InitializeDefaultAttributes();
 		
 		if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
 		{
