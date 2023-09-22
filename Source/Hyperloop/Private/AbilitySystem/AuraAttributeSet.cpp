@@ -12,15 +12,16 @@
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
-	InitHealth( 10.F);
+	InitHealth( 90.F);
 	//InitMaxHealth( 100.F);
-	InitMana( 50.F);
-	//InitMaxMana( 150.F);
+	InitMana( 100.F);
+	//InitMaxMana( 150.F); // maX HEALTH AND MANA WITHIN INFINITE EFFECT IN gas
 	
-	InitGhostHealth(50.f);
+	InitGhostHealth(90.f);
 	InitMaxGhostHealth(100.f);
-	InitGhostMana(75.f);
-	InitMaxGhostMana(150.f);
+	
+	InitGhostMana(100.f);
+	InitMaxGhostMana(170.f);
 
 	//GetGhostHealth();
 
@@ -144,7 +145,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute( const FGameplayEffectModCallb
 	{
 		//GEngine->AddOnScreenDebugMessage(1,3.f,FColor::Red, FString::Printf(TEXT("Health: %f"), GetHealth()));
 
-		SetHealth(FMath::Clamp(GetHealth(), 0.f,GetMaxMana()));
+		SetHealth(FMath::Clamp(GetHealth(), 0.f,GetMaxHealth()));
 	}
 
 
