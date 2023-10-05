@@ -39,6 +39,7 @@ void AAuraCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
+
 void AAuraCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -47,6 +48,7 @@ void AAuraCharacter::BeginPlay()
 
 void AAuraCharacter::InitAbilityActorInfo() 
 {
+	//gets the player state
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>(); //get the current player state
 
 	//check(AuraPlayerState);  // make sure no null pointer
@@ -73,4 +75,14 @@ void AAuraCharacter::InitAbilityActorInfo()
 	}
 
 	
+}
+
+int32 AAuraCharacter::GetPlayerLevel()
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>(); //get the current player state
+
+	// causes a crash some times
+	check(AuraPlayerState);
+	
+	return AuraPlayerState->GetPlayerLevel();
 }

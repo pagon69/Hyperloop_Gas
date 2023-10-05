@@ -107,7 +107,7 @@ public:
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
 
 	
-	/**********************     Ghost Health - trailing health bar       ***************************/
+	/**********************     Ghost Health - trailing health bar       ***************************
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_GhostHealth, Category = "Vital Attributes")
 	FGameplayAttributeData GhostHealth;
 
@@ -116,9 +116,9 @@ public:
 	
 	UFUNCTION()
 	void OnRep_GhostHealth(const FGameplayAttributeData& OldGhostHealth) const;
-
+*/
 	
-	/**********************     Max Ghost Health         ***************************/
+	/**********************     Max Ghost Health         ***************************
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxGhostHealth, Category = "Vital Attributes")
 	FGameplayAttributeData MaxGhostHealth;
 
@@ -127,10 +127,10 @@ public:
 	
 	UFUNCTION()
 	void OnRep_MaxGhostHealth(const FGameplayAttributeData& OldMaxGhostHealth) const;
-
+*/
 	
 
-	/**********************     Ghost mana - trailing health bar       ***************************/
+	/**********************     Ghost mana - trailing health bar       ***************************
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_GhostMana, Category = "Vital Attributes")
 	FGameplayAttributeData GhostMana;
 
@@ -139,9 +139,9 @@ public:
 	
 	UFUNCTION()
 	void OnRep_GhostMana(const FGameplayAttributeData& OldGhostMana) const;
-
+*/
 	
-	/**********************     Max Ghost mana         ***************************/
+	/**********************     Max Ghost mana         ***************************
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxGhostMana, Category = "Vital Attributes")
 	FGameplayAttributeData MaxGhostMana;
 
@@ -151,7 +151,7 @@ public:
 	UFUNCTION()
 	void OnRep_MaxGhostMana(const FGameplayAttributeData& OldMaxGhostMana) const;
 
-	
+	*/
 
 	/*
 	 * Primary Attributes

@@ -62,3 +62,8 @@ void AAuraEnemy::UnHighLightActor()
 	SkeletalWeapon->SetRenderCustomDepth(false);
 	
 }
+
+int32 AAuraEnemy::GetPlayerLevel()
+{
+	return Level;
+}

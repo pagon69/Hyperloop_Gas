@@ -16,12 +16,13 @@ UAuraAttributeSet::UAuraAttributeSet()
 	//InitMaxHealth( 100.F);
 	InitMana( 100.F);
 	//InitMaxMana( 150.F); // maX HEALTH AND MANA WITHIN INFINITE EFFECT IN gas
+	/*
+	 *InitGhostHealth(90.f);
+	 *InitMaxGhostHealth(100.f);
 	
-	InitGhostHealth(90.f);
-	InitMaxGhostHealth(100.f);
-	
-	InitGhostMana(100.f);
-	InitMaxGhostMana(170.f);
+	 *InitGhostMana(100.f);
+	 *InitMaxGhostMana(170.f);
+     */
 
 	//GetGhostHealth();
 
@@ -75,13 +76,21 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 		NewValue = FMath::Clamp(NewValue, 0.f,GetMaxMana());
 	}
 
+	/*
 	if(Attribute == GetGhostHealthAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0.f,GetMaxGhostHealth()); // clamps health to maxhealth
 
 		NewValue = FMath::InterpEaseInOut(GetGhostHealth(), GetHealth(),.5f,.5f);
 	}
-	
+
+	if(Attribute == GetGhostManaAttribute()) //clamp
+	{
+		NewValue = FMath::Clamp(NewValue, 0.f,GetMaxGhostMana()); // clamps mana to max mana
+
+		NewValue = FMath::InterpEaseInOut(GetGhostMana(), GetMana(),.5f,.5f);
+	}
+	*/
 	
 }
 
@@ -191,7 +200,9 @@ void UAuraAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) 
 }
 
 
-
+/*
+ *No longer need this
+ *
 void UAuraAttributeSet::OnRep_GhostHealth(const FGameplayAttributeData& OldGhostHealth) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, GhostHealth, OldGhostHealth);
@@ -202,6 +213,7 @@ void UAuraAttributeSet::OnRep_MaxGhostHealth(const FGameplayAttributeData& OldMa
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxGhostHealth, OldMaxGhostHealth);
 }
 
+	
 void UAuraAttributeSet::OnRep_GhostMana(const FGameplayAttributeData& OldGhostMana) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, GhostMana, OldGhostMana);
@@ -211,6 +223,7 @@ void UAuraAttributeSet::OnRep_MaxGhostMana(const FGameplayAttributeData& OldMaxG
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxGhostMana, OldMaxGhostMana);
 }
+*/
 
 // Primary attributes
 void UAuraAttributeSet::OnRep_Strenght(const FGameplayAttributeData& OldStrenght) const

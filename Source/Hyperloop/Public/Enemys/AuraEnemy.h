@@ -25,12 +25,23 @@ public:
 	//enemy interfaces 
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;
+
+	/*
+	 * setup the Combat interface 
+	 */
+	virtual int32 GetPlayerLevel() override;
+
 	
 protected:
 
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
+
+	//int CustomStenceilValue = 250;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character class Defaults")
+	int32 Level = 1;
 	
 private:
-	//int CustomStenceilValue = 250;
+	
+	
 };

@@ -18,13 +18,14 @@ void UOverlay_AuraWidgetController::BroadcastInitialValues()
 	OnMaxHealthChanged.Broadcast(AuraAttributeSet->GetMaxHealth());
 	OnManaChanged.Broadcast(AuraAttributeSet->GetMana());
 	OnMaxManaChanged.Broadcast(AuraAttributeSet->GetMaxMana());
+	/*
 
 	//trailing ghost bar
 	OnGhostHealthChanged.Broadcast(AuraAttributeSet->GetGhostHealth());
 	OnMaxGhostHealthChanged.Broadcast(AuraAttributeSet->GetMaxGhostHealth());	
 	OnGhostManaChanged.Broadcast(AuraAttributeSet->GetGhostMana());
 	OnMaxGhostManaChanged.Broadcast(AuraAttributeSet->GetMaxGhostMana());
-
+    */
 
 	
 	//Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)
@@ -72,7 +73,8 @@ void UOverlay_AuraWidgetController::BindCallbacksToDependencies()
 		}
 
 	);
-
+/*
+	
 	//trailing ghost lambdas for changes
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetGhostHealthAttribute()).AddLambda(
 	[this](const FOnAttributeChangeData& Data)
@@ -82,6 +84,10 @@ void UOverlay_AuraWidgetController::BindCallbacksToDependencies()
 
 	);
 
+ */
+
+	/*
+	 *
 	//trailing max ghost health lambda
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxGhostHealthAttribute()).AddLambda(
 	[this](const FOnAttributeChangeData& Data)
@@ -91,7 +97,8 @@ void UOverlay_AuraWidgetController::BindCallbacksToDependencies()
 
 	);
 
-
+*/
+	/*
 	//trailing ghost mana lambdas for changes
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetGhostManaAttribute()).AddLambda(
 	[this](const FOnAttributeChangeData& Data)
@@ -101,6 +108,10 @@ void UOverlay_AuraWidgetController::BindCallbacksToDependencies()
 
 	);
 
+	*/
+	
+/*	
+	
 	//trailing max ghost mana lambda
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxGhostManaAttribute()).AddLambda(
 	[this](const FOnAttributeChangeData& Data)
@@ -110,7 +121,7 @@ void UOverlay_AuraWidgetController::BindCallbacksToDependencies()
 
 	);
 	
-
+*/
 	
 
 	//the below can be used to replace the above call back functions which normally need to exsist for a delegate
