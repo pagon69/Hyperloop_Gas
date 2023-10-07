@@ -42,12 +42,16 @@ void ACharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffe
 {
 	check(IsValid(GetAbilitySystemComponent())); // do we have an ability system component ?
 	check(GameplayEffectClass); //checks if this has been set on the character
-
+	
 	FGameplayEffectContextHandle MyContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	
+	MyContextHandle.AddSourceObject(this); // adds the source object which is the interface holding object
+	
 	FGameplayEffectSpecHandle MySpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffectClass, level,MyContextHandle);
 
 	//remember that to get the Spec from the spec handle you have to go to Data.Get() and dereference so *
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*MySpecHandle.Data.Get(),GetAbilitySystemComponent());
+	
 }
 
 void ACharacterBase::InitializeDefaultAttributes() const
