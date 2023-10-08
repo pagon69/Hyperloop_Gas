@@ -12,9 +12,11 @@
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
-	InitHealth( 90.F);
+	//old way
+	//InitHealth( 90.F);
 	//InitMaxHealth( 100.F);
-	InitMana( 100.F);
+	//InitMana( 100.F);
+	
 	//InitMaxMana( 150.F); // maX HEALTH AND MANA WITHIN INFINITE EFFECT IN gas
 	/*
 	 *InitGhostHealth(90.f);
