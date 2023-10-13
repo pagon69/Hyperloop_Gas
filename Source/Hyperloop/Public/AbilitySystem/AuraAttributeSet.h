@@ -17,6 +17,9 @@ struct FGameplayEffectModCallbackData;
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+//DECLARE_DELEGATE_RetVal(FGameplayAttribute, FAttributeSignature); declared a delegate
+
+
 USTRUCT()
 struct FEffectProperties
 {
@@ -55,6 +58,13 @@ struct FEffectProperties
 	
 };
 
+//creates an alais for a hard to look at function calls
+//typedef TBaseStaticDelegateInstance<FGameplayAttribute(), FDefaultDelegateUserPolicy>::FFuncPtr FAttributeFuncPtr;
+
+//another way to do an alais but also a template
+template<class T>
+using TStaticFuncPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
+
 /**
  * 
  */
@@ -75,6 +85,18 @@ public:
 	//good for logic after a change ?>
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 
+
+	//TMap<FGameplayTag, FAttributeSignature> TagsToAttributes;
+	/*
+	 * templates , typedef, alais and function pointers are below and suck for understandability 
+	 */
+	
+    //not sure about this but basically code for function pointers
+	//can store a pointer to a function that we create
+	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>> TagsToAttributes;
+	
+	
+	
 	/**********************     Health      ***************************/
 	//the following 4 lines required per attribute
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
