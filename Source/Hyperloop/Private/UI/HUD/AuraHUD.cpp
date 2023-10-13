@@ -5,9 +5,10 @@
 #include "Blueprint/UserWidget.h"
 #include "UI/Widget/AuraUserWidget.h"
 #include "UI/Widget/Overlay_AuraWidgetController.h"
+#include "UI/Widget/AttributeMenuWidgetController.h"
 
 
-
+//for the overlay widget
 UOverlay_AuraWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& WcParams)
 {
 
@@ -18,9 +19,23 @@ UOverlay_AuraWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidge
 		
 		OverlayWidgetController->BindCallbacksToDependencies();
 
-		return  OverlayWidgetController;
+	//	return  OverlayWidgetController;
 	}
 	return OverlayWidgetController;
+}
+
+//for the attribute menu
+UAttributeMenuWidgetController* AAuraHUD::GetAttributeMenuWidgetController(const FWidgetControllerParams& WcParams)
+{
+	if(AttributeMenuWidgetController == nullptr)
+	{
+		AttributeMenuWidgetController = NewObject<UAttributeMenuWidgetController>(this, AttributeMenuWidgetControllerClass);
+		AttributeMenuWidgetController->SetWidgetControllerParams(WcParams);
+		
+		AttributeMenuWidgetController->BindCallbacksToDependencies();
+	}
+	return AttributeMenuWidgetController;
+	
 }
 
 void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
