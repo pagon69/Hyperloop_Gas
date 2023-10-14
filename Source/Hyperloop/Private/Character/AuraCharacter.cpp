@@ -30,6 +30,10 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 
 	//init ability actor info for server 
 	InitAbilityActorInfo();  /* this fails on server everytime but works on client */
+
+	//grants abilities -- causes a crash here
+	//AddCharacterAbilities();
+	
 }
 
 void AAuraCharacter::OnRep_PlayerState()
@@ -37,6 +41,10 @@ void AAuraCharacter::OnRep_PlayerState()
 	Super::OnRep_PlayerState();
 	//init ability actor info for client
 	InitAbilityActorInfo();
+
+	//grants abilities
+	//AddCharacterAbilities();
+	
 }
 
 
@@ -63,7 +71,10 @@ void AAuraCharacter::InitAbilityActorInfo()
 		AttributeSet = AuraPlayerState->GetAttributeSet();
 
 		InitializeDefaultAttributes();
-		
+
+		//grants abilities
+		AddCharacterAbilities(); // can i put this some place esle ?
+	
 		if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
 		{
 			if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
@@ -71,6 +82,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 				AuraHUD->InitOverlay(AuraPlayerController,AuraPlayerState,AbilitySystemComponent,AttributeSet);
 			}
 		}
+
 		
 	}
 

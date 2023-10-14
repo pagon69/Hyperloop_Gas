@@ -11,6 +11,7 @@
 
 #define CUSTOM_DEPTH_RED 250
 
+class UGameplayAbility;
 struct FGameplayEffectSpec;
 class UAbilitySystemComponent;
 class UAttributeSet;
@@ -63,8 +64,15 @@ protected:
 	//initializes the attributes
 	void InitializeDefaultAttributes() const;
 
+protected:
+
+	void AddCharacterAbilities();
+
 	
+private:
 	
+	UPROPERTY(EditAnywhere, Category= "Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> StartUpAbilities;
 
 	
 };
