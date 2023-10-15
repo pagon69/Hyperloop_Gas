@@ -23,6 +23,9 @@ public:
 	FEffectAssetTags EffectAssetTags; //declares the delegate function
 
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartUpAbilities);
+
+	void AbilityInputTagHeld(const FGameplayTag& InputTag);
+	void AbilityInputTagRelease(const FGameplayTag& InputTag);
 	
 protected:
 

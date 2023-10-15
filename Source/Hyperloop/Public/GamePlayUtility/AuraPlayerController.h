@@ -12,6 +12,7 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 class IMouseTargetInterface;
+class UAuraAbilitySystemComponent;
 
 
 /**
@@ -49,12 +50,17 @@ private:
 	IMouseTargetInterface* ThisActor;
 
 	//the things needed for my custom enhanced input options
-	void AbilityInputTagPress(FGameplayTag InputTag) const;
-	void AbilityInputTagReleased(FGameplayTag InputTag) const;
-	void AbilityInputTagHeld(FGameplayTag InputTag) const;
+	void AbilityInputTagPress(FGameplayTag InputTag) ;
+	void AbilityInputTagReleased(FGameplayTag InputTag) ;
+	void AbilityInputTagHeld(FGameplayTag InputTag) ;
 
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UAuraInputConfig> InputConfig;
 
+	UPROPERTY()
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
+
+	UAuraAbilitySystemComponent* GetAsc();
+	
 };
