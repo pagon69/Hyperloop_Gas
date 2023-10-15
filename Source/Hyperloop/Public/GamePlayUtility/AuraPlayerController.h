@@ -13,7 +13,7 @@ class UInputAction;
 struct FInputActionValue;
 class IMouseTargetInterface;
 class UAuraAbilitySystemComponent;
-
+class USplineComponent;
 
 /**
  * 
@@ -62,5 +62,23 @@ private:
 	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
 
 	UAuraAbilitySystemComponent* GetAsc();
+
+	/**
+	 * Below are the variables needed for click to move code that replicates
+	 */
+	//mouse click and move to variables -
+	FVector CacheDestination = FVector::ZeroVector; //after you click on a spot in the world save it
+	float FollowTime = 0.f; 
+	float ShortPressThreshold = 0.5f; // how long you held the button down
+	bool bAutoRunning = false; // if you are moving to the path of the last click 
+	bool bIsTargeting = false;
+	
+	UPROPERTY(EditDefaultsOnly)
+	float AutoRunAcceptanceRadius = 50.f;  // minimum distance for auto move to kick in
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USplineComponent> Spline; // needed to smooth out the pathing from player to click
+	
+	
 	
 };

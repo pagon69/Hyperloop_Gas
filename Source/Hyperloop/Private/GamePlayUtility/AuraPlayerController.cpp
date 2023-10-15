@@ -4,16 +4,23 @@
 #include "GamePlayUtility/AuraPlayerController.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AuraGameplayTags.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
+#include "NavigationPath.h"
+#include "NavigationSystem.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/MouseTargetInterface.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
+
+	//creates the spline in game with no points or anything to it
+	Spline = CreateDefaultSubobject<USplineComponent>("Spline");
 }
 
 void AAuraPlayerController::BeginPlay()
@@ -74,7 +81,7 @@ void AAuraPlayerController::CursorTrace()
 	if(!CursorHit.bBlockingHit) return;
 	
 	LastActor = ThisActor;
-	ThisActor = Cast<IMouseTargetInterface>(CursorHit.GetActor());
+	ThisActor = Cast<IMouseTargetInterface>(CursorHit.GetActor()); // keeps a value of an enemy if they are being highlighted
 
 	/**
 	 *Line trace from actor, there are several scenarios:
@@ -128,20 +135,104 @@ void AAuraPlayerController::CursorTrace()
 void AAuraPlayerController::AbilityInputTagPress(FGameplayTag InputTag) 
 {
 	//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Green, *InputTag.ToString());
+	
+	// bIsTargeting = ThisActor ? true :false; // if thisactor is null returns false but returns true if it is something
+
+	//if ThisActor contains a target to highlight then bIsTargeting is true
+	//bAutoRunning = false; // uncomment the above two lines and remove my if not working
+
+	if(InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+	{
+		bIsTargeting = ThisActor ? true : false;
+		bAutoRunning = false;
+	}
+	
 }
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag) 
 {
-	if( GetAsc() == nullptr) return;
+
+	if(!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB)) //checks if a LMB ability was used
+		{
+			if(GetAsc())
+			{
+				GetAsc()->AbilityInputTagRelease(InputTag);
+			}
+			return;
+		}
+
+	if(bIsTargeting) // checks if you are hovering over a enemy
+		{
+			if(GetAsc())
+			{
+				GetAsc()->AbilityInputTagRelease(InputTag);
+			}
+		}
+
+	else
+	{
+		APawn* ControlledPawn = GetPawn();
+		if(FollowTime <= ShortPressThreshold && ControlledPawn)
+		{
+			UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CacheDestination );
+			if(NavPath)
+			{
+				Spline->ClearSplinePoints(); // clear the spline to avoid bad points
+				
+				for (const FVector& PointLocation : NavPath->PathPoints) // the NavPath was created and contains points to get people to a point
+				{
+					Spline->AddSplinePoint(PointLocation, ESplineCoordinateSpace::World); // how to add apoint to spline
+					DrawDebugSphere(GetWorld(), PointLocation, 8.f, 8, FColor::Green, false, 5.f); // for testing to see what is happening and points being created
+				}
+				bAutoRunning = true;
+			}
+		}
 	
-	GetAsc()->AbilityInputTagRelease(InputTag);
+		FollowTime = 0.f; // this is within release so reset following and set bistargeting back to false
+		bIsTargeting = false;
+	}
 }
 
+
+/*
+* code for responding to holding a input button down
+*/
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag) 
 {
-	if( GetAsc() == nullptr) return;
 	
-	GetAsc()->AbilityInputTagHeld(InputTag);
+	if(!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB)) //checks if a LMB ability was used
+	{
+		if(GetAsc())
+		{
+			GetAsc()->AbilityInputTagHeld(InputTag);
+		}
+		return;
+	}
+
+	if(bIsTargeting) // checks if you are hovering over a enemy
+	{
+		if(GetAsc())
+		{
+			GetAsc()->AbilityInputTagHeld(InputTag);
+		}
+	}
+	else // keeps location of clicked spot on map
+	{
+		FollowTime += GetWorld()->GetDeltaSeconds();
+		FHitResult Hit;
+		if(GetHitResultUnderCursor(ECC_Visibility, false, Hit))
+		{
+			CacheDestination = Hit.ImpactPoint;
+		}
+
+		if(APawn* ControlledPawn = GetPawn())
+		{
+			const FVector WorldDirection = (CacheDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
+			ControlledPawn->AddMovementInput(WorldDirection);
+		}
+		
+	}
+	
 }
 
 UAuraAbilitySystemComponent* AAuraPlayerController::GetAsc()
