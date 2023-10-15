@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "GameFramework/PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
+class UAuraInputConfig;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
@@ -46,5 +48,13 @@ private:
 	IMouseTargetInterface* LastActor;
 	IMouseTargetInterface* ThisActor;
 
+	//the things needed for my custom enhanced input options
+	void AbilityInputTagPress(FGameplayTag InputTag) const;
+	void AbilityInputTagReleased(FGameplayTag InputTag) const;
+	void AbilityInputTagHeld(FGameplayTag InputTag) const;
+
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UAuraInputConfig> InputConfig;
 
 };

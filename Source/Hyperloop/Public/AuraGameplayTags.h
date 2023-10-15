@@ -37,7 +37,13 @@ public:
 	FGameplayTag Attributes_Secondary_ManaRegeneration;
 	FGameplayTag Attributes_Secondary_HealthRegeneration;
 	
-	
+	// inputTags used to mapping actions for movement or abilities
+	FGameplayTag InputTag_LMB;
+	FGameplayTag InputTag_RMB;
+	FGameplayTag InputTag_Num1;
+	FGameplayTag InputTag_Num2;
+	FGameplayTag InputTag_Num3;
+	FGameplayTag InputTag_Num4;
 	
 protected:
 

@@ -33,6 +33,13 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_Secondary_MaxMana = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MaxMana"), FString("Maximum mana "));
 	GameplayTags.Attributes_Secondary_MaxHealth = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MaxHealth"), FString("Maximum health"));
 	
-	
+	// inputTags used to mapping actions for movement or abilities
+
+	GameplayTags.InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.LMB"), FString("responds when left mouse button is clicked"));
+	GameplayTags.InputTag_RMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.RMB "), FString("responds when right mouse button is clicked"));
+	GameplayTags.InputTag_Num1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num1"), FString("responds when the nbumber 1 key is clicked"));
+	GameplayTags.InputTag_Num2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num2"), FString("responds when the nbumber 2 key is clicked"));
+	GameplayTags.InputTag_Num3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num3"), FString("responds when the nbumber 3 key is clicked"));
+	GameplayTags.InputTag_Num4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num4"), FString("responds when the nbumber 4 key is clicked"));
 	
 }
