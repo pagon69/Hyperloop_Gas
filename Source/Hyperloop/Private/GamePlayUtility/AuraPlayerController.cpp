@@ -71,6 +71,9 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 	Super::PlayerTick(DeltaTime);
 
 	CursorTrace();
+
+	AutoRun();
+	
 }
 
 void AAuraPlayerController::CursorTrace()
@@ -184,6 +187,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 					Spline->AddSplinePoint(PointLocation, ESplineCoordinateSpace::World); // how to add apoint to spline
 					DrawDebugSphere(GetWorld(), PointLocation, 8.f, 8, FColor::Green, false, 5.f); // for testing to see what is happening and points being created
 				}
+				CacheDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
 				bAutoRunning = true;
 			}
 		}
@@ -242,6 +246,27 @@ UAuraAbilitySystemComponent* AAuraPlayerController::GetAsc()
 		AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
 	}
 	return AuraAbilitySystemComponent;
+}
+
+void AAuraPlayerController::AutoRun()
+{
+
+	if(!bAutoRunning) return;
+	if(APawn* ControlledPawn = GetPawn())
+	{
+		const FVector LocationOnSpline = Spline->FindLocationClosestToWorldLocation(ControlledPawn->GetActorLocation(), ESplineCoordinateSpace::World); //get a location on the spline the player starts
+		const FVector Direction = Spline->FindDirectionClosestToWorldLocation(LocationOnSpline, ESplineCoordinateSpace::World);
+		const float DistanceToDestination = (LocationOnSpline - CacheDestination).Length(); // distance to where was cxlicked
+		
+		ControlledPawn->AddMovementInput(Direction);
+	
+		if(DistanceToDestination <= AutoRunAcceptanceRadius)
+		{
+			bAutoRunning = false;
+		}
+		
+	}
+
 }
 
 

@@ -79,6 +79,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline; // needed to smooth out the pathing from player to click
 	
-	
+	void AutoRun();
 	
 };
