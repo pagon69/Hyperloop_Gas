@@ -49,6 +49,8 @@ private:
 	IMouseTargetInterface* LastActor;
 	IMouseTargetInterface* ThisActor;
 
+	FHitResult CursorHit;
+
 	//the things needed for my custom enhanced input options
 	void AbilityInputTagPress(FGameplayTag InputTag) ;
 	void AbilityInputTagReleased(FGameplayTag InputTag) ;

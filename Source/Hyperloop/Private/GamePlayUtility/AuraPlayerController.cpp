@@ -79,7 +79,7 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 void AAuraPlayerController::CursorTrace()
 {
 	//make a line trace under the cursor, a member function of player controller class
-	FHitResult CursorHit;
+	
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
 	if(!CursorHit.bBlockingHit) return;
 	
@@ -185,7 +185,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				for (const FVector& PointLocation : NavPath->PathPoints) // the NavPath was created and contains points to get people to a point
 				{
 					Spline->AddSplinePoint(PointLocation, ESplineCoordinateSpace::World); // how to add apoint to spline
-					DrawDebugSphere(GetWorld(), PointLocation, 8.f, 8, FColor::Green, false, 5.f); // for testing to see what is happening and points being created
+					//DrawDebugSphere(GetWorld(), PointLocation, 8.f, 8, FColor::Green, false, 5.f); // for testing to see what is happening and points being created
 				}
 				CacheDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
 				bAutoRunning = true;
@@ -223,10 +223,10 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	else // keeps location of clicked spot on map
 	{
 		FollowTime += GetWorld()->GetDeltaSeconds();
-		FHitResult Hit;
-		if(GetHitResultUnderCursor(ECC_Visibility, false, Hit))
+		
+		if(CursorHit.bBlockingHit)
 		{
-			CacheDestination = Hit.ImpactPoint;
+			CacheDestination = CursorHit.ImpactPoint;
 		}
 
 		if(APawn* ControlledPawn = GetPawn())
