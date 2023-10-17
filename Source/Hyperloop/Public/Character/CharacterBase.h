@@ -40,6 +40,16 @@ protected:
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	TObjectPtr<UStaticMeshComponent> StaticWeapon;
 
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName WeaponTipSocketNameSkeletal;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName WeaponTipSocketNameStatic;
+
+	virtual FVector GetCombatSocketLocation() override;
+
+	
+	
 	//attribute set and ability system - not full built out
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
