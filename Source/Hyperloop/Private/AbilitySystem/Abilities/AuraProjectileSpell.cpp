@@ -16,10 +16,22 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 	//how to use printstring from C++
 	//UKismetSystemLibrary::PrintString(this, FString("Activate Ability- C++"), true, true, FLinearColor::Yellow, 3);
 
-	const bool bIsServer = HasAuthority(&ActivationInfo);
+	
+
+//	SpawnProjectile();
+	
+}
+
+
+//spawns a projectile
+void UAuraProjectileSpell::SpawnProjectile()
+{
+	
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	
 	if(!bIsServer) return; //return iof not on the server
 
+	
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
 
 	if(CombatInterface)
@@ -29,7 +41,8 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 		FTransform SpawnTransform;
 
 		SpawnTransform.SetLocation(SocketLocation);
-
+		//
+		
 		//TODO: set the rotation
 		
 		//will spawn an actor at this transform location
@@ -41,10 +54,10 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 
 
 		//TODO: give projectile a gameplay effect spec for casuing damage 
-
 		
-		Projectile->FinishSpawning(SpawnTransform); //
+		Projectile->FinishSpawning(SpawnTransform); // complete the spawning
+		
+		
 	}
 
-	
 }
