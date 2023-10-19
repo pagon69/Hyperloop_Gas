@@ -40,8 +40,22 @@ private:
 
 	UPROPERTY(EditAnywhere, Category= "Input")
 	TObjectPtr<UInputAction> MoveAction;
-
 	void Move(const FInputActionValue& InputActionValue);
+
+	UPROPERTY(EditAnywhere, Category= "Input")
+	TObjectPtr<UInputAction> SwiftAction;
+	void Swift(const FInputActionValue& InputActionValue);
+
+	//did everything inline
+	void SwiftPress() { bSwiftKeyPressed = true; };
+	void SwiftRelease() {bSwiftKeyPressed = false; };
+	bool bSwiftKeyPressed = false;
+
+	UPROPERTY(EditAnywhere, Category= "Input")
+	TObjectPtr<UInputAction> OpenMenuAction;
+	void OpenMenu(const FInputActionValue& InputActionValue);
+
+	bool bIsMenuOpen = false;
 
 	void CursorTrace();
 

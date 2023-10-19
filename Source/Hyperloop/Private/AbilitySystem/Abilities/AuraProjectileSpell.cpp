@@ -24,7 +24,7 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 
 
 //spawns a projectile
-void UAuraProjectileSpell::SpawnProjectile()
+void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation)
 {
 	
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
@@ -38,10 +38,15 @@ void UAuraProjectileSpell::SpawnProjectile()
 	{
 		const FVector  SocketLocation = CombatInterface->GetCombatSocketLocation(); // uses the getter on the combat interface to get the socket name and location
 
+		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation(); // minus two location vectors to get a rotation
+
+		Rotation.Pitch = 0.f; // make it parallel by removing pitch
+		
 		FTransform SpawnTransform;
 
-		SpawnTransform.SetLocation(SocketLocation);
-		//
+		SpawnTransform.SetLocation(SocketLocation); // decides where to send from
+		
+		SpawnTransform.SetRotation(Rotation.Quaternion());
 		
 		//TODO: set the rotation
 		

@@ -62,6 +62,10 @@ void AAuraPlayerController::SetupInputComponent()
 
 	//binds action is how to do the input component in blueprint
 	AuraInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered,this, &AAuraPlayerController::Move);
+	AuraInputComponent->BindAction(SwiftAction, ETriggerEvent::Started,this, &AAuraPlayerController::SwiftPress);
+	AuraInputComponent->BindAction(SwiftAction, ETriggerEvent::Completed,this, &AAuraPlayerController::SwiftRelease);
+	AuraInputComponent->BindAction(OpenMenuAction, ETriggerEvent::Triggered,this, &AAuraPlayerController::OpenMenu);
+	AuraInputComponent->BindAction(SwiftAction, ETriggerEvent::Triggered,this, &AAuraPlayerController::Swift);
 
 	AuraInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPress, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
@@ -137,7 +141,7 @@ void AAuraPlayerController::CursorTrace()
 
 void AAuraPlayerController::AbilityInputTagPress(FGameplayTag InputTag) 
 {
-	//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Green, *InputTag.ToString());
+	
 	
 	// bIsTargeting = ThisActor ? true :false; // if thisactor is null returns false but returns true if it is something
 
@@ -164,37 +168,32 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 			return;
 		}
 
-	if(bIsTargeting) // checks if you are hovering over a enemy
+	if(GetAsc()) GetAsc()->AbilityInputTagRelease(InputTag);
+	
+	if( !bIsTargeting && !bSwiftKeyPressed) // checks if you are hovering over a enemy
 		{
-			if(GetAsc())
+			APawn* ControlledPawn = GetPawn();
+			if(FollowTime <= ShortPressThreshold && ControlledPawn)
 			{
-				GetAsc()->AbilityInputTagRelease(InputTag);
-			}
-		}
-
-	else
-	{
-		APawn* ControlledPawn = GetPawn();
-		if(FollowTime <= ShortPressThreshold && ControlledPawn)
-		{
-			UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CacheDestination );
-			if(NavPath)
-			{
-				Spline->ClearSplinePoints(); // clear the spline to avoid bad points
-				
-				for (const FVector& PointLocation : NavPath->PathPoints) // the NavPath was created and contains points to get people to a point
+				UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CacheDestination );
+				if(NavPath)
 				{
-					Spline->AddSplinePoint(PointLocation, ESplineCoordinateSpace::World); // how to add apoint to spline
+					Spline->ClearSplinePoints(); // clear the spline to avoid bad points
+				
+					for (const FVector& PointLocation : NavPath->PathPoints) // the NavPath was created and contains points to get people to a point
+						{
+						Spline->AddSplinePoint(PointLocation, ESplineCoordinateSpace::World); // how to add apoint to spline
 					//DrawDebugSphere(GetWorld(), PointLocation, 8.f, 8, FColor::Green, false, 5.f); // for testing to see what is happening and points being created
+						}
+					CacheDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
+					bAutoRunning = true;
 				}
-				CacheDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
-				bAutoRunning = true;
 			}
-		}
 	
 		FollowTime = 0.f; // this is within release so reset following and set bistargeting back to false
 		bIsTargeting = false;
-	}
+		}
+	
 }
 
 
@@ -213,7 +212,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		return;
 	}
 
-	if(bIsTargeting) // checks if you are hovering over a enemy
+	if(bIsTargeting || bSwiftKeyPressed) // checks if you are hovering over a enemy
 	{
 		if(GetAsc())
 		{
@@ -288,5 +287,16 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 
 
 
+}
+
+void AAuraPlayerController::Swift(const FInputActionValue& InputActionValue)
+{
+	
+	GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Green, TEXT("Swift Key pressed"));
+}
+
+void AAuraPlayerController::OpenMenu(const FInputActionValue& InputActionValue)
+{
+	bIsMenuOpen = true;
 }
 

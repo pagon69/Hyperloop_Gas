@@ -5,6 +5,7 @@
 #include "GameplayEffect.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Components/CapsuleComponent.h"
 
 ACharacterBase::ACharacterBase()
 {
@@ -20,6 +21,9 @@ ACharacterBase::ACharacterBase()
 	SkeletalWeapon = CreateDefaultSubobject<USkeletalMeshComponent>("SkeletalMeshWeapon");
 	SkeletalWeapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	SkeletalWeapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 
 }
 
