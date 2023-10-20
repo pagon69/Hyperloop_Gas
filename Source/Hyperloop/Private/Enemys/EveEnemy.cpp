@@ -4,6 +4,7 @@
 #include "Enemys/EveEnemy.h"
 #include "AbilitySystem/EveAbilitySystemComponent.h"
 #include "AbilitySystem/EveAttributeSet.h"
+#include "Hyperloop/Hyperloop.h"
 
 AEveEnemy::AEveEnemy()
 {
@@ -14,6 +15,9 @@ AEveEnemy::AEveEnemy()
 
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block); // to set visablity channel to block to slow highlight
 
+	GetMesh()->SetGenerateOverlapEvents(true); //needed for players and enemys
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap); // is this correct ?
+	
 	//attribute set and ability system declarations
 	AbilitySystemComponent = CreateDefaultSubobject<UEveAbilitySystemComponent> ("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);

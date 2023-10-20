@@ -25,8 +25,12 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<AAuraProjectile> ProjectileClass;
+
+	//void PlaySoundInTransit();
 	
 private:
 
-	
+	//UPROPERTY(EditAnywhere)
+	//TObjectPtr<USoundBase> TravelingSound;
+
 };

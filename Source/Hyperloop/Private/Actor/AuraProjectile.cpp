@@ -5,6 +5,11 @@
 
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "NiagaraFunctionLibrary.h"
+#include "Components/AudioComponent.h"
+#include "Hyperloop/Hyperloop.h"
+
 
 // Sets default values
 AAuraProjectile::AAuraProjectile()
@@ -17,6 +22,8 @@ AAuraProjectile::AAuraProjectile()
 	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
 	SetRootComponent(Sphere);
 
+	Sphere->SetCollisionObjectType(ECC_Projectile); // added to custom collison channel
+	
 	//below sets up the shpre and the collision for it
 	Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	Sphere->SetCollisionResponseToAllChannels(ECR_Ignore);
@@ -36,14 +43,46 @@ AAuraProjectile::AAuraProjectile()
 void AAuraProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+
+	SetLifeSpan(ProjectileLifeSpan); // projectile destory themself if 15 seconds pass without hitting something
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraProjectile::OnSphereOverlap);
+	LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, GetRootComponent());
+	
+}
+
+void AAuraProjectile::Destroyed()
+{
+	
+	if(!bHit && !HasAuthority())
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation( this, ImpactEffect, GetActorLocation());
+		LoopingSoundComponent->Stop();
+	}
+	Super::Destroyed();
+	
 }
 
 void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+                                      UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 
+	//todo: play sound and effect of hit
+
+	//should i do a check for the sound effect and niagara effect ?
+	UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation( this, ImpactEffect, GetActorLocation());
+	LoopingSoundComponent->Stop();
 	
+	
+	if(HasAuthority())
+	{
+		Destroy();
+	}else
+	{
+		bHit = true;
+	}
+
 	
 }
 

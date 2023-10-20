@@ -6,6 +6,7 @@
 #include "Actor/AuraProjectile.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/GameplayStatics.h"
 
 void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                            const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
@@ -62,7 +63,21 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 		
 		Projectile->FinishSpawning(SpawnTransform); // complete the spawning
 		
+		//PlaySoundInTransit();
 		
 	}
 
+
+	
 }
+
+/*
+void UAuraProjectileSpell::PlaySoundInTransit()
+{
+
+	
+	//todo: after spawning add sound to it as it travels
+
+	//UGameplayStatics::PlaySoundAtLocation(this, TravelingSound, GetActorLocation());
+}
+*/

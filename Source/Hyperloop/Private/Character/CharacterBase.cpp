@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Hyperloop/Hyperloop.h"
 
 ACharacterBase::ACharacterBase()
 {
@@ -24,6 +25,10 @@ ACharacterBase::ACharacterBase()
 
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+
+	GetMesh()->SetGenerateOverlapEvents(true); //needed for players and enemys
+	
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap); // is this correct ?
 
 }
 

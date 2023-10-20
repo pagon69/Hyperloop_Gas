@@ -4,11 +4,15 @@
 #include "Enemys/AuraEnemy.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "Hyperloop/Hyperloop.h"
 
 AAuraEnemy::AAuraEnemy()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap); // is this correct ?
+	GetMesh()->SetGenerateOverlapEvents(true); //needed for players and enemys
+	
 	//attribute set and ability system - not full built out
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent> ("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
