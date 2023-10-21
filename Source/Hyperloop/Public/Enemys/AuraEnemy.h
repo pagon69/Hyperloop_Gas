@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "Character/CharacterBase.h"
 #include "Interaction/MouseTargetInterface.h"
+#include "UI/Widget/Overlay_AuraWidgetController.h"
 #include "AuraEnemy.generated.h"
 
 
+class UWidgetComponent;
 /**
  * 
  */
@@ -31,6 +33,17 @@ public:
 	 */
 	virtual int32 GetPlayerLevel() override;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChangedSignature OnHeathChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChangedSignature OnMaxHeathChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChangedSignature OnManaChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChangedSignature OnMaxManaChanged;
 	
 protected:
 
@@ -40,6 +53,10 @@ protected:
 	//int CustomStenceilValue = 250;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character class Defaults")
 	int32 Level = 1;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UWidgetComponent> HealthBar;
+	
 	
 private:
 	

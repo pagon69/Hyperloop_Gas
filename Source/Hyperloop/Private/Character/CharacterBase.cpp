@@ -18,14 +18,17 @@ ACharacterBase::ACharacterBase()
 	StaticWeapon = CreateDefaultSubobject<UStaticMeshComponent>("StaticMeshWeapon");
 	StaticWeapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	StaticWeapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	
 	
 	SkeletalWeapon = CreateDefaultSubobject<USkeletalMeshComponent>("SkeletalMeshWeapon");
 	SkeletalWeapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	SkeletalWeapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
+	
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
-
 	GetMesh()->SetGenerateOverlapEvents(true); //needed for players and enemys
 	
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap); // is this correct ?
