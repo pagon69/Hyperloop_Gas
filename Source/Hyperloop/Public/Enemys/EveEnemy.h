@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Character/CharacterBase.h"
 #include "Interaction/MouseTargetInterface.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "EveEnemy.generated.h"
 
 /**

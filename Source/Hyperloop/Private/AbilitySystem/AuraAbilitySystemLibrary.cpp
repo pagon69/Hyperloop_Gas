@@ -7,6 +7,7 @@
 #include "UI/HUD/AuraHUD.h"
 #include "UI/Widget/Overlay_AuraWidgetController.h"
 #include "Character/AuraPlayerState.h"
+#include "GamePlayUtility/AuraGameModeBase.h"
 
 UOverlay_AuraWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -49,3 +50,42 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
 	return nullptr;
 	
 }
+
+void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject,
+	ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
+{
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+
+	UCharacterClassInfo* CharacterClassInfo = AuraGameMode->CharacterClassInfo;
+	
+	if(AuraGameMode == nullptr) return; // if you dont have a gamemode exit
+
+
+	AActor* AvatorActor = ASC->GetAvatarActor();
+	//UCharacterClassInfo* ClassInfo = AuraGameMode->CharacterClassInfo;
+
+	FCharacterClassDefaultInfo ClassDefaultInfo = AuraGameMode->CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
+
+	FGameplayEffectContextHandle PrimaryAttributesContextHandle = ASC->MakeEffectContext();
+	PrimaryAttributesContextHandle.AddSourceObject(AvatorActor);
+	
+	//auto helps figure out the type 
+	const auto PrimaryAttributeSpechandle = ASC->MakeOutgoingSpec( ClassDefaultInfo.PrimaryAttributes, 1.f, PrimaryAttributesContextHandle);
+	ASC->ApplyGameplayEffectSpecToSelf(*PrimaryAttributeSpechandle.Data.Get());
+
+	FGameplayEffectContextHandle SecondaryAttributesContextHandle = ASC->MakeEffectContext();
+	SecondaryAttributesContextHandle.AddSourceObject(AvatorActor);
+	
+	const auto SecondaryAttributeSpechandle = ASC->MakeOutgoingSpec( CharacterClassInfo->SecondaryAttributes, 1.f, SecondaryAttributesContextHandle);
+	ASC->ApplyGameplayEffectSpecToSelf(*SecondaryAttributeSpechandle.Data.Get());
+
+
+	FGameplayEffectContextHandle VitalAttributesContextHandle = ASC->MakeEffectContext();
+	VitalAttributesContextHandle.AddSourceObject(AvatorActor);
+	
+	const auto VitalAttributeSpechandle = ASC->MakeOutgoingSpec( CharacterClassInfo->VitalAttributes, 1.f, VitalAttributesContextHandle);
+	ASC->ApplyGameplayEffectSpecToSelf(*VitalAttributeSpechandle.Data.Get());
+	
+	
+}
+

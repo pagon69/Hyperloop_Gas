@@ -3,6 +3,7 @@
 
 #include "Enemys/AuraEnemy.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Components/WidgetComponent.h"
 #include "Hyperloop/Hyperloop.h"
@@ -10,8 +11,14 @@
 
 AAuraEnemy::AAuraEnemy()
 {
-	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 
+	//setup collision for the swat guy
+	StaticShield = CreateDefaultSubobject<UStaticMeshComponent>("ShieldSlot");
+	StaticShield->SetupAttachment(GetMesh(), FName("ShieldHandSocket"));
+	StaticShield->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	
+	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap); // is this correct ?
 	GetMesh()->SetGenerateOverlapEvents(true); //needed for players and enemys
 	
@@ -102,6 +109,12 @@ void AAuraEnemy::InitAbilityActorInfo()
 	
 }
 
+void AAuraEnemy::InitializeDefaultAttributes() const
+{
+
+	UAuraAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
+	
+}
 
 
 void AAuraEnemy::HighLightActor()
