@@ -45,6 +45,15 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangedSignature OnMaxManaChanged;
+
+	UPROPERTY(BlueprintReadOnly, Category="Combat")
+	bool bHitReacting = false;
+
+	UPROPERTY(BlueprintReadOnly, Category="Combat")
+	float BaseWalkSpeed = 250.f;
+
+	//responds when the tag changes - overrides a function that declared deligates
+	void HitReactTagChanaged(const FGameplayTag CallBackTag, int32 NewCount);
 	
 protected:
 
@@ -68,6 +77,8 @@ protected:
 	
 	
 	virtual void InitializeDefaultAttributes() const override;
+
+	
 	
 private:
 	

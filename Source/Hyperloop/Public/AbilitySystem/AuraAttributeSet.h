@@ -76,6 +76,16 @@ class HYPERLOOP_API UAuraAttributeSet : public UAttributeSet
 
 public:
 	UAuraAttributeSet();
+
+	/*
+	 * Meta Attributes -
+	 */
+	UPROPERTY(BlueprintReadOnly, Category ="Meta Attribute")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
+
+	//end of meta attributes
+
 	
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 

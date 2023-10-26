@@ -4,7 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+
 #include "CombatInterface.generated.h"
+
+
+class UAnimMontage;
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI, BlueprintType)
@@ -29,6 +33,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void UpdateFacingTarget(const FVector& Target);
 
+	//by using blueprint native event i get a c++ function and something to use in blueprints
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UAnimMontage* GetHitReactMontage();
+	
 protected:
 
 

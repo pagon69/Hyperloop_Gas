@@ -9,6 +9,7 @@
 #include "Interaction/CombatInterface.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "Hyperloop/Public/AuraGameplayTags.h"
 
 void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                            const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
@@ -67,6 +68,15 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 
 		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
 
+		const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
+
+		const float ScaledDamage = Damage.GetValueAtLevel(GetAbilityLevel()); // gets the level at this level
+
+		//removed a on screen debug
+		//GEngine->AddOnScreenDebugMessage(-1, 3.f,FColor::Red, FString::Printf(TEXT("firebolt damage: %f"), ScaledDamage)); // scales damage based on level and curve table ct_firedamage
+		
+		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, ScaledDamage); // to use set by caller versus scale float or other options
+		
 		Projectile->DamageEffectSpecHandle = SpecHandle;
 		
 		Projectile->FinishSpawning(SpawnTransform); // complete the spawning

@@ -6,8 +6,11 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Components/WidgetComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Hyperloop/Hyperloop.h"
 #include "UI/Widget/AuraUserWidget.h"
+#include "Hyperloop/Public/AuraGameplayTags.h"
+
 
 AAuraEnemy::AAuraEnemy()
 {
@@ -42,9 +45,13 @@ void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
+
 	check(AbilitySystemComponent); // first place to check for crash
 	
 	InitAbilityActorInfo();
+
+	UAuraAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
 
 	UAuraUserWidget* AuraUserWidget =  Cast<UAuraUserWidget>(HealthBar->GetUserWidgetObject());
 	if(AuraUserWidget)
@@ -87,6 +94,15 @@ void AAuraEnemy::BeginPlay()
 			}
 
 		);
+
+		FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
+		
+		AbilitySystemComponent->RegisterGameplayTagEvent(GameplayTags.Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
+		this,
+		&AAuraEnemy::HitReactTagChanaged
+		
+		);
+		
 		
 		OnHeathChanged.Broadcast(AuraAS->GetHealth());
 		OnMaxHeathChanged.Broadcast(AuraAS->GetMaxHealth());
@@ -96,6 +112,15 @@ void AAuraEnemy::BeginPlay()
 	}
 	
 }
+
+
+void AAuraEnemy::HitReactTagChanaged(const FGameplayTag CallBackTag, int32 NewCount)
+{
+	bHitReacting = NewCount > 0 ;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f :BaseWalkSpeed;
+}
+
+
 
 void AAuraEnemy::InitAbilityActorInfo()
 {

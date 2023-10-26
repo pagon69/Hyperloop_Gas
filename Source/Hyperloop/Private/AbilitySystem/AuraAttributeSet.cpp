@@ -201,6 +201,31 @@ void UAuraAttributeSet::PostGameplayEffectExecute( const FGameplayEffectModCallb
 		// In this case, Health's base value must be non-negative.
 		//SetHealth(FMath::Max(GetHealth(), 0.0f));
 	}
+
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		const float LocalIncomingDamage = GetIncomingDamage();
+		SetIncomingDamage(0.f);
+
+		if(LocalIncomingDamage > 0)
+		{
+			const float NewHealth = GetHealth() - LocalIncomingDamage;
+			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
+
+			const bool bFatal = NewHealth <= 0.f; //check if negative health, if yes then dead
+
+			if(!bFatal)
+			{
+				FGameplayTagContainer TagContainer; //create a container for tags
+				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact); // add the following tag to the container
+				
+				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer); // try to start an ability from within this conatiner
+				
+			}
+			
+		}
+	}
+	
 	
 }
 

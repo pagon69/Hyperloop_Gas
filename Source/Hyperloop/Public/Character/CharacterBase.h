@@ -16,6 +16,7 @@ struct FGameplayEffectSpec;
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayEffect;
+class UAnimMontage;
 
 UCLASS(Abstract)
 class HYPERLOOP_API ACharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
@@ -29,6 +30,8 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override; //system required getter for ability system componenbt
 
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; } // getter for the attribute set
+
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	
 protected:
 	
@@ -83,6 +86,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category= "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartUpAbilities;
+
+	UPROPERTY(EditAnywhere, Category= "Abilities")
+	TObjectPtr<UAnimMontage> HitReactMontage;
 
 	
 };

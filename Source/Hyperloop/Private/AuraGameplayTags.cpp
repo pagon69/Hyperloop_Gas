@@ -41,5 +41,13 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.InputTag_Num2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num2"), FString("responds when the nbumber 2 key is clicked"));
 	GameplayTags.InputTag_Num3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num3"), FString("responds when the nbumber 3 key is clicked"));
 	GameplayTags.InputTag_Num4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num4"), FString("responds when the nbumber 4 key is clicked"));
+
+	//the tag for damage abilities
+	
+	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"), FString("The damage done"));
+
+	//the tags for effects and hit reacts can also hold long lasting tags
+
+	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"), FString("When hit a reaction to that effect playing"));
 	
 }
