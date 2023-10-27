@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
+class UDamageTextComponent;
 class UAuraInputConfig;
 class UInputMappingContext;
 class UInputAction;
@@ -14,6 +15,7 @@ struct FInputActionValue;
 class IMouseTargetInterface;
 class UAuraAbilitySystemComponent;
 class USplineComponent;
+class ACharacter;
 
 /**
  * 
@@ -25,6 +27,10 @@ class HYPERLOOP_API AAuraPlayerController : public APlayerController
 
 public:
 	AAuraPlayerController();
+
+	UFUNCTION(Client, Reliable)
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
+	
 	
 protected:
 	virtual void BeginPlay() override;
@@ -96,5 +102,8 @@ private:
 	TObjectPtr<USplineComponent> Spline; // needed to smooth out the pathing from player to click
 	
 	void AutoRun();
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
 	
 };

@@ -46,6 +46,48 @@ UAnimMontage* ACharacterBase::GetHitReactMontage_Implementation()
 	return HitReactMontage;
 }
 
+//handles hwta happens only on server
+void ACharacterBase::Die()
+{
+	if(StaticWeapon) // checks to make sure a weapon is made
+	{
+		StaticWeapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+	}
+	
+	if(SkeletalWeapon) // what happens if nothing is attached ?
+	{
+		//will this run if they dont have anythign attached ?
+		SkeletalWeapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+	}
+
+	MulticastHandleDeath();
+}
+
+//what happens on client and server
+void ACharacterBase::MulticastHandleDeath_Implementation()
+{
+    //drops weapons properties
+	SkeletalWeapon->SetSimulatePhysics(true);
+	SkeletalWeapon->SetEnableGravity(true);
+	SkeletalWeapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	
+	StaticWeapon->SetSimulatePhysics(true);
+	StaticWeapon->SetEnableGravity(true);
+	StaticWeapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+	//rag dolls mesh
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+	//todo: add impluse coming from impact of fireball to knock back body after death
+
+	//makes the capsule not block me for death enemys
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Dissolve();
+
+}
+
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -95,6 +137,40 @@ void ACharacterBase::AddCharacterAbilities()
 	if(!HasAuthority()) return;
 
 	AuraASC->AddCharacterAbilities(StartUpAbilities);
+	
+}
+
+void ACharacterBase::Dissolve()
+{
+
+	if(IsValid(DissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
+		GetMesh()->SetMaterial(0, DynamicMatInst); //if i have mutilple materials on the Mixamo objects then i have to make multiple dynamicMatInst
+
+		GetMesh()->SetMaterial(1, DynamicMatInst); //if i have mutilple materials on the Mixamo objects then i have to make multiple dynamicMatInst
+
+		StartDissolveTimeline(DynamicMatInst);
+		
+	}
+	
+	if(IsValid(WeaponDissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
+		SkeletalWeapon->SetMaterial(0, DynamicMatInst); //if i have mutilple materials on the Mixamo objects then i have to make multiple dynamicMatInst
+
+		
+		StartWeaponDissolveTimeline(DynamicMatInst);
+	}
+
+	if(IsValid(WeaponDissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
+		StaticWeapon->SetMaterial(0, DynamicMatInst); //if i have mutilple materials on the Mixamo objects then i have to make multiple dynamicMatInst
+
+	
+		StartWeaponDissolveTimeline(DynamicMatInst);
+	}
 	
 }
 

@@ -10,10 +10,13 @@
 #include "InputActionValue.h"
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
+#include "ShaderPrintParameters.h"
+#include "GameFramework/Character.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/MouseTargetInterface.h"
+#include "UI/Widget/DamageTextComponent.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -21,6 +24,25 @@ AAuraPlayerController::AAuraPlayerController()
 
 	//creates the spline in game with no points or anything to it
 	Spline = CreateDefaultSubobject<USplineComponent>("Spline");
+}
+
+void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+{
+	if(IsValid(TargetCharacter) && DamageTextComponentClass)
+	{
+		UDamageTextComponent* DamageText = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComponentClass);
+		DamageText->RegisterComponent();
+		
+		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform); //attach to a component
+
+		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform); // deattach from a component component
+
+		//the affect of above is it attachs to a component then the animation in thw diget plays and it detaches so it floats away
+
+		DamageText->SetDamageText(DamageAmount);
+	
+	}
+	
 }
 
 void AAuraPlayerController::BeginPlay()
@@ -244,6 +266,7 @@ UAuraAbilitySystemComponent* AAuraPlayerController::GetAsc()
 	{
 		AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
 	}
+	
 	return AuraAbilitySystemComponent;
 }
 

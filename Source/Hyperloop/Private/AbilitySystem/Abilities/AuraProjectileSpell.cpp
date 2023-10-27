@@ -74,8 +74,9 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 
 		//removed a on screen debug
 		//GEngine->AddOnScreenDebugMessage(-1, 3.f,FColor::Red, FString::Printf(TEXT("firebolt damage: %f"), ScaledDamage)); // scales damage based on level and curve table ct_firedamage
-		
-		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, ScaledDamage); // to use set by caller versus scale float or other options
+
+		//update this in the future                                                                   //todo: remove the 10 * scaled damage after i have testing working
+		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, ScaledDamage * 10); // to use set by caller versus scale float or other options
 		
 		Projectile->DamageEffectSpecHandle = SpecHandle;
 		

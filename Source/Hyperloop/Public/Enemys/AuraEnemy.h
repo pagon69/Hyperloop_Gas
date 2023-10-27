@@ -52,8 +52,13 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Combat")
 	float BaseWalkSpeed = 250.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	float LifeSpan = 3.f;
+
 	//responds when the tag changes - overrides a function that declared deligates
 	void HitReactTagChanaged(const FGameplayTag CallBackTag, int32 NewCount);
+
+	virtual void Die() override;
 	
 protected:
 

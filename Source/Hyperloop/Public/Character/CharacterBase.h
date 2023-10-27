@@ -32,6 +32,12 @@ public:
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; } // getter for the attribute set
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+
+	
+	virtual void Die() override;
+
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void MulticastHandleDeath();
 	
 protected:
 	
@@ -77,11 +83,21 @@ protected:
 	//initializes the attributes
 	virtual void InitializeDefaultAttributes() const;
 
-protected:
-
 	void AddCharacterAbilities();
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Materials") // used to switch out the material used from default to dissolving material
+	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Materials") // used to switch out the material used from default to dissolving material
+	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+
+	void Dissolve();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 private:
 	
 	UPROPERTY(EditAnywhere, Category= "Abilities")

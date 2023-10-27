@@ -9,6 +9,9 @@
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
 #include "AuraGameplayTags.h"
+#include "GamePlayUtility/AuraPlayerController.h"
+#include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
@@ -162,6 +165,19 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 	
 }
 
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage) const
+{
+	//todo: show damage number here
+
+	if(Props.SourceCharacter != Props.TargetCharacter)
+	{
+		if(AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
+		}
+	}
+}
+
 
 //do clamps here also
 void UAuraAttributeSet::PostGameplayEffectExecute( const FGameplayEffectModCallbackData &Data)
@@ -214,7 +230,17 @@ void UAuraAttributeSet::PostGameplayEffectExecute( const FGameplayEffectModCallb
 
 			const bool bFatal = NewHealth <= 0.f; //check if negative health, if yes then dead
 
-			if(!bFatal)
+			if(bFatal)
+			{
+				//basically checks if the thing being damaged has a combat interface and they get fatal damage then Die
+				ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
+				if(CombatInterface)
+				{
+					CombatInterface->Die();
+				}
+				
+			}
+			else
 			{
 				FGameplayTagContainer TagContainer; //create a container for tags
 				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact); // add the following tag to the container
@@ -222,6 +248,9 @@ void UAuraAttributeSet::PostGameplayEffectExecute( const FGameplayEffectModCallb
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer); // try to start an ability from within this conatiner
 				
 			}
+
+			ShowFloatingText(Props, LocalIncomingDamage);
+				
 			
 		}
 	}

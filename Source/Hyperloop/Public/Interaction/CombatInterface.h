@@ -36,6 +36,9 @@ public:
 	//by using blueprint native event i get a c++ function and something to use in blueprints
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage();
+
+	//pure virtual function so has to be implemented
+	virtual void Die() = 0 ;
 	
 protected:
 
