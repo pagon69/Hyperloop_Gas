@@ -184,7 +184,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute( const FGameplayEffectModCallb
 {
 	Super::PostGameplayEffectExecute(Data);
 
-	//UE_LOG(LogTemp, Warning, TEXT("whats in Data: %f"), GetHealth());
+	
 	//UE_LOG(LogTemp, Warning, TEXT("whats in Data: %f"), Data.EvaluatedData.Magnitude);
 
 	FEffectProperties Props;
