@@ -16,6 +16,8 @@ public:
 	//for how to send data over a network
 	virtual  bool NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutSuccess) override;
 
+	virtual FGameplayEffectContext* Duplicate() const override;
+	
 	// inline getters
 	bool IsCriticalHit() const { return bIsCriticalHit; }
 	bool IsBlockedHit() const { return bIsBlockedHit; }
@@ -36,4 +38,14 @@ protected:
 	
 
 	
+};
+
+template<>
+struct TStructOpsTypeTraits<FAuraGameplayEffectContext> : TStructOpsTypeTraitsBase2<FAuraGameplayEffectContext>
+{
+	enum
+	{
+		WithNetSerializer = true,
+		WithCopy = true
+	};
 };

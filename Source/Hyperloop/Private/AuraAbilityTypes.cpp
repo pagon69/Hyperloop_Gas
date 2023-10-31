@@ -4,7 +4,9 @@
 /*  Required overload for this class to be sub-classed */
 UScriptStruct* FAuraGameplayEffectContext::GetScriptStruct() const
 {
-	return FGameplayEffectContext::GetScriptStruct();
+	return StaticStruct();
+	//return FGameplayEffectContext::GetScriptStruct();
+	
 }
 
 
@@ -113,4 +115,17 @@ bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* Map, bo
 	bOutSuccess = true;
 	
 	return true;
+}
+
+FGameplayEffectContext* FAuraGameplayEffectContext::Duplicate() const
+{
+	FAuraGameplayEffectContext* NewContext = new FAuraGameplayEffectContext();
+
+	*NewContext = *this;
+	if(GetHitResult())
+	{
+		NewContext->AddHitResult(*GetHitResult(), true);
+	}
+	
+	return NewContext;
 }
