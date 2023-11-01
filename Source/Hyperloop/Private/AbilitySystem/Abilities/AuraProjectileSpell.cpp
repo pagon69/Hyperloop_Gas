@@ -44,7 +44,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 
 		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation(); // minus two location vectors to get a rotation
 
-		Rotation.Pitch = 0.f; // make it parallel by removing pitch
+		 // Rotation.Pitch = 0.f; // make it parallel by removing pitch
 		
 		FTransform SpawnTransform;
 

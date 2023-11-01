@@ -56,7 +56,7 @@ public:
 	float LifeSpan = 3.f;
 
 	//responds when the tag changes - overrides a function that declared deligates
-	void HitReactTagChanaged(const FGameplayTag CallBackTag, int32 NewCount);
+	void HitReactTagChanged(const FGameplayTag CallBackTag, int32 NewCount);
 
 	virtual void Die() override;
 	

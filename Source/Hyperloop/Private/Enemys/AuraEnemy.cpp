@@ -51,7 +51,11 @@ void AAuraEnemy::BeginPlay()
 	
 	InitAbilityActorInfo();
 
-	UAuraAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+	if(HasAuthority())
+	{
+		UAuraAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+	}
+	
 
 	UAuraUserWidget* AuraUserWidget =  Cast<UAuraUserWidget>(HealthBar->GetUserWidgetObject());
 	if(AuraUserWidget)
@@ -99,7 +103,7 @@ void AAuraEnemy::BeginPlay()
 		
 		AbilitySystemComponent->RegisterGameplayTagEvent(GameplayTags.Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
 		this,
-		&AAuraEnemy::HitReactTagChanaged
+		&AAuraEnemy::HitReactTagChanged
 		
 		);
 		
@@ -114,7 +118,7 @@ void AAuraEnemy::BeginPlay()
 }
 
 
-void AAuraEnemy::HitReactTagChanaged(const FGameplayTag CallBackTag, int32 NewCount)
+void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallBackTag, int32 NewCount)
 {
 	bHitReacting = NewCount > 0 ;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f :BaseWalkSpeed;
@@ -136,7 +140,11 @@ void AAuraEnemy::InitAbilityActorInfo()
 
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 
-	InitializeDefaultAttributes();
+	if(HasAuthority())
+	{
+		InitializeDefaultAttributes();
+	}
+	
 	
 }
 

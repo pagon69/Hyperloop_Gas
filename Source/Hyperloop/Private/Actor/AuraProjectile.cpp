@@ -54,27 +54,52 @@ void AAuraProjectile::BeginPlay()
 
 void AAuraProjectile::Destroyed()
 {
+	//Super::Destroyed();
 	
 	if(!bHit && !HasAuthority())
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation( this, ImpactEffect, GetActorLocation());
-		LoopingSoundComponent->Stop();
+		if(LoopingSoundComponent)
+		{
+			LoopingSoundComponent->Stop();
+		}
+		
 	}
 	Super::Destroyed();
+	
 	
 }
 
 void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                       UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	//exit early if you hit yourself
+	if( DamageEffectSpecHandle.Data.IsValid() && DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
+	{
+		return;
+	}
 
-	//todo: play sound and effect of hit
+	if(!bHit)
+	{
+		//should i do a check for the sound effect and niagara effect ?
+		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation( this, ImpactEffect, GetActorLocation());
+		//LoopingSoundComponent->Stop();
+		if(LoopingSoundComponent)
+		{
+			LoopingSoundComponent->Stop();
+		}
+	}
+	
+	
 
-	//should i do a check for the sound effect and niagara effect ?
-	UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-	UNiagaraFunctionLibrary::SpawnSystemAtLocation( this, ImpactEffect, GetActorLocation());
-	LoopingSoundComponent->Stop();
+	//todo:  fix multipler crash from looping sound component being null pointer
+	/*
+	 *
+	 *fix looping sound component
+	 * 
+	 */
 	
 	
 	if(HasAuthority())
@@ -82,6 +107,7 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 		if(UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent((OtherActor)))
 		{
 			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+			//Destroy(); // should i do this ?
 		}
 		
 		Destroy();
