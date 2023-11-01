@@ -45,9 +45,22 @@ public:
 	FGameplayTag InputTag_Num3;
 	FGameplayTag InputTag_Num4;
 
+	//custom abilitys
+
+	FGameplayTag InputTag_M;
+	FGameplayTag InputTag_SpaceBar;
+
 	// damage related tags
 	FGameplayTag Damage;
 
+	//types of damage received or spells do
+	FGameplayTag Damage_Fire;
+	FGameplayTag Damage_Electric;
+	FGameplayTag Damage_Acid;
+
+	//list of damage types
+	TArray<FGameplayTag> DamageTypes;
+	
 	//hit react related tags
 	FGameplayTag Effects_HitReact;
 	

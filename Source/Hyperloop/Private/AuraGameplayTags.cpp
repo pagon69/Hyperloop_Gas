@@ -42,10 +42,25 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.InputTag_Num3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num3"), FString("responds when the nbumber 3 key is clicked"));
 	GameplayTags.InputTag_Num4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num4"), FString("responds when the nbumber 4 key is clicked"));
 
+	// custom ability types
+	GameplayTags.InputTag_M = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.M"), FString("responds when the M key key is clicked"));
+	GameplayTags.InputTag_SpaceBar = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Space"), FString("responds when the space bar 4 key is clicked"));
+
+	
 	//the tag for damage abilities
 	
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"), FString("The damage done"));
 
+	//damage types below
+	GameplayTags.Damage_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Fire"), FString("Fire Damage"));
+	GameplayTags.Damage_Acid = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Acid"), FString("Acid Damage"));
+	GameplayTags.Damage_Electric = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Electric"), FString("Electric Damage"));
+
+	// container of damage types --> add any new type below
+	GameplayTags.DamageTypes.Add(GameplayTags.Damage_Acid);
+	GameplayTags.DamageTypes.Add(GameplayTags.Damage_Fire);
+	GameplayTags.DamageTypes.Add(GameplayTags.Damage_Electric);
+	
 	//the tags for effects and hit reacts can also hold long lasting tags
 
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"), FString("When hit a reaction to that effect playing"));

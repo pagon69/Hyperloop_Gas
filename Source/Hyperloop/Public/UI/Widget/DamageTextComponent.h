@@ -16,7 +16,7 @@ class HYPERLOOP_API UDamageTextComponent : public UWidgetComponent
 
 public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SetDamageText(float Damage);
+	void SetDamageText(float Damage, bool bBlockedHit, bool bCriticalHit);
 
 
 	

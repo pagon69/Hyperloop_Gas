@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/ExecCalc/ExecCalcDamage.h"
 #include "AbilitySystemComponent.h"
+#include "AuraAbilityTypes.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -88,8 +89,16 @@ void UExecCalcDamage::Execute_Implementation(const FGameplayEffectCustomExecutio
 	 * 
 	 */
 	//get damage set by caller magnitude
-	float Damage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage);
+	float Damage = 0;
 
+	/*  update resistances and effect daMAGE DONE HERE ?*/
+	for (FGameplayTag DamageTypeTag : FAuraGameplayTags::Get().DamageTypes)
+	{
+		const float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTypeTag);
+		Damage += DamageTypeValue;
+	}
+	
+	
 	// block chance capture - halve damage
 	float TargetBlockChance = 0.f; // declare a variable
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef, EvaluateParameters, TargetBlockChance); // capture the block chance
@@ -140,21 +149,29 @@ void UExecCalcDamage::Execute_Implementation(const FGameplayEffectCustomExecutio
 
 	
 	//checks if target block chance is higher than the results
-	if(FMath::RandRange(1, 100) < TargetBlockChance)
+
+	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockChance; //the logic for a block chance
+	
+	if(bBlocked)
 	{
 		Damage = Damage / 2.f;
 	}
 
-
+	//convert to an aura effect context 
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	//sets the blocked variable for use later if needed
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
 	
 	//critical chance
 	const float EffectiveCriticalHitChance = SourceCriticalHitChance - (TargetCriticalHitResistance * CriticalHitResistanceCurveCoeff); // another way to go
 
-	if(FMath::RandRange(1, 100) < EffectiveCriticalHitChance)
+	const bool bCriticalHit = FMath::RandRange(1, 100) < EffectiveCriticalHitChance ;
+	if(bCriticalHit)
 	{
 		Damage = ( Damage * 2.f ) + SourceCriticalHitDamage;
 	}
 
+	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCriticalHit);
 	
 	//armor pen formula and what it does
 	const float EffectiveArmor = TargetArmor * ( 100 - SourceArmorPenetration * ArmorPenetrationCoEff ) / 100.f ;
