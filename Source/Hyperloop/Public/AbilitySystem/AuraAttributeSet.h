@@ -138,53 +138,6 @@ public:
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
 
-	
-	/**********************     Ghost Health - trailing health bar       ***************************
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_GhostHealth, Category = "Vital Attributes")
-	FGameplayAttributeData GhostHealth;
-
-	//can remove later when we learn about accessors
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, GhostHealth);
-	
-	UFUNCTION()
-	void OnRep_GhostHealth(const FGameplayAttributeData& OldGhostHealth) const;
-*/
-	
-	/**********************     Max Ghost Health         ***************************
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxGhostHealth, Category = "Vital Attributes")
-	FGameplayAttributeData MaxGhostHealth;
-
-	//can remove later when we learn about accessors
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxGhostHealth);
-	
-	UFUNCTION()
-	void OnRep_MaxGhostHealth(const FGameplayAttributeData& OldMaxGhostHealth) const;
-*/
-	
-
-	/**********************     Ghost mana - trailing health bar       ***************************
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_GhostMana, Category = "Vital Attributes")
-	FGameplayAttributeData GhostMana;
-
-	//can remove later when we learn about accessors
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, GhostMana);
-	
-	UFUNCTION()
-	void OnRep_GhostMana(const FGameplayAttributeData& OldGhostMana) const;
-*/
-	
-	/**********************     Max Ghost mana         ***************************
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxGhostMana, Category = "Vital Attributes")
-	FGameplayAttributeData MaxGhostMana;
-
-	//can remove later when we learn about accessors
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxGhostMana);
-	
-	UFUNCTION()
-	void OnRep_MaxGhostMana(const FGameplayAttributeData& OldMaxGhostMana) const;
-
-	*/
-
 	/*
 	 * Primary Attributes
 	 */
@@ -303,6 +256,58 @@ public:
 
 	//can remove later when we learn about accessors
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
+
+	/*****************    Resistances      ************************/
+
+	//fire resistance
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistance, Category = "Resistances")
+	FGameplayAttributeData FireResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, FireResistance);
+
+	UFUNCTION()
+	void OnRep_FireResistance(const FGameplayAttributeData& OldFireResistance) const;
+
+	//arcane resistance
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArcaneResistance, Category = "Resistances")
+	FGameplayAttributeData ArcaneResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArcaneResistance);
+
+	UFUNCTION()
+	void OnRep_ArcaneResistance(const FGameplayAttributeData& OldArcaneResistance) const;
+
+	//Electric resistance
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ElectricResistance, Category = "Resistances")
+	FGameplayAttributeData ElectricResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ElectricResistance);
+
+	UFUNCTION()
+	void OnRep_ElectricResistance(const FGameplayAttributeData& OldElectricResistance) const;
+
+	//Acid resistance
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_AcidResistance, Category = "Resistances")
+	FGameplayAttributeData AcidResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, AcidResistance);
+
+	UFUNCTION()
+	void OnRep_AcidResistance(const FGameplayAttributeData& OldAcidResistance) const;
+
+	//Physical resistance
+	
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance, Category = "Resistances")
+	FGameplayAttributeData PhysicalResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PhysicalResistance);
+
+	UFUNCTION()
+	void OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const;
+
+
+	
+
+	
 	
 protected:
 	

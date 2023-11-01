@@ -37,6 +37,13 @@ public:
 	FGameplayTag Attributes_Secondary_ManaRegeneration;
 	FGameplayTag Attributes_Secondary_HealthRegeneration;
 	
+	//resistances type
+	FGameplayTag Attributes_Resistance_Fire;
+	FGameplayTag Attributes_Resistance_Electric;
+	FGameplayTag Attributes_Resistance_Arcane;
+	FGameplayTag Attributes_Resistance_Acid;
+	FGameplayTag Attributes_Resistance_Physical;
+	
 	// inputTags used to mapping actions for movement or abilities
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
@@ -56,10 +63,13 @@ public:
 	//types of damage received or spells do
 	FGameplayTag Damage_Fire;
 	FGameplayTag Damage_Electric;
+	FGameplayTag Damage_Arcane;
 	FGameplayTag Damage_Acid;
-
+	FGameplayTag Damage_Physical;
+	
+	
 	//list of damage types
-	TArray<FGameplayTag> DamageTypes;
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 	
 	//hit react related tags
 	FGameplayTag Effects_HitReact;

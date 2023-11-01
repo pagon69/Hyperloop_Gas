@@ -55,11 +55,25 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Damage_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Fire"), FString("Fire Damage"));
 	GameplayTags.Damage_Acid = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Acid"), FString("Acid Damage"));
 	GameplayTags.Damage_Electric = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Electric"), FString("Electric Damage"));
-
-	// container of damage types --> add any new type below
-	GameplayTags.DamageTypes.Add(GameplayTags.Damage_Acid);
-	GameplayTags.DamageTypes.Add(GameplayTags.Damage_Fire);
-	GameplayTags.DamageTypes.Add(GameplayTags.Damage_Electric);
+	GameplayTags.Damage_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Arcane"), FString("Arcane Damage"));
+	GameplayTags.Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Physical"), FString("Physical Damage"));
+	
+	//resistances
+	GameplayTags.Attributes_Resistance_Acid = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Acid"), FString("Resistance to Acid damage"));
+	GameplayTags.Attributes_Resistance_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Fire"), FString("Resistance to fire damage"));
+	GameplayTags.Attributes_Resistance_Electric = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Electric"), FString("Resistance to electric damage"));
+	GameplayTags.Attributes_Resistance_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Arcane"), FString("Resistance to Arcane damage"));
+	GameplayTags.Attributes_Resistance_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Physical"), FString("Resistance to Physical damage"));
+	
+	// container of damage types --> and resistance add any new type below
+	/*
+	 * Map of damage type to resistance
+	 */
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Acid, GameplayTags.Attributes_Resistance_Acid);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Arcane, GameplayTags.Attributes_Resistance_Arcane);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Electric, GameplayTags.Attributes_Resistance_Electric);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Resistance_Physical);
 	
 	//the tags for effects and hit reacts can also hold long lasting tags
 
