@@ -4,6 +4,7 @@
 #include "Enemys/EveEnemy.h"
 #include "AbilitySystem/EveAbilitySystemComponent.h"
 #include "AbilitySystem/EveAttributeSet.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Hyperloop/Hyperloop.h"
 
 AEveEnemy::AEveEnemy()
@@ -22,8 +23,15 @@ AEveEnemy::AEveEnemy()
 	AbilitySystemComponent = CreateDefaultSubobject<UEveAbilitySystemComponent> ("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+	
 	
 	AttributeSet = CreateDefaultSubobject<UEveAttributeSet>("AttributeSet");
+	
 	
 }
 

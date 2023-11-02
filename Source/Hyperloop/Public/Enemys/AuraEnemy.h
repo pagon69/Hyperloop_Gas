@@ -11,6 +11,8 @@
 
 
 class UWidgetComponent;
+class UBehaviorTree;
+class AAuraAIController;
 /**
  * 
  */
@@ -19,11 +21,11 @@ class HYPERLOOP_API AAuraEnemy : public ACharacterBase, public IMouseTargetInter
 {
 	GENERATED_BODY()
 
-	AAuraEnemy();
-	
 public:
 
-	
+	AAuraEnemy();
+
+	virtual void PossessedBy(AController* NewController) override;
 
 	//enemy interfaces 
 	virtual void HighLightActor() override;
@@ -71,7 +73,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character class Defaults")
 	ECharacterClass CharacterClass = ECharacterClass::Warrior;
-
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;
@@ -83,7 +84,11 @@ protected:
 	
 	virtual void InitializeDefaultAttributes() const override;
 
-	
+	UPROPERTY(EditAnywhere, Category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
+
+	UPROPERTY()
+	TObjectPtr<AAuraAIController> AuraAIController;
 	
 private:
 	

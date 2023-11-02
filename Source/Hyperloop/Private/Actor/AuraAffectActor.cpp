@@ -31,6 +31,12 @@ void AAuraAffectActor::BeginPlay()
 void AAuraAffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
 
+	const bool bIsEnemy = TargetActor->ActorHasTag(FName("Enemy"));
+	if (bIsEnemy && !bApplyEffectsToEnemies)
+	{
+		return;
+	}
+	
 	UAbilitySystemComponent* TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 
 	if(TargetAbilitySystemComponent == nullptr) //if no ability system component on the thing that overlapped
@@ -53,30 +59,21 @@ void AAuraAffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 		ActiveEffectHandles.Add(ActiveEffectHandle, TargetAbilitySystemComponent);
 	}
 
-	
-	/* code for an array of context effects */
-
-	/* can i make an array out of this ?
-	 *
-	TArray<FGameplayEffectContextHandle> EffectContextHandleList;
-	
-	EffectContextHandleList.Add(TargetAbilitySystemComponent->MakeEffectContext());
-
-	if(EffectContextHandleList.IsEmpty()) return;
-	
-	
-	for (auto ContextHandleList : EffectContextHandleList)
+	if(!bIsInfinite)
 	{
-		ContextHandleList = TargetAbilitySystemComponent->MakeEffectContext();
+		Destroy();
 	}
-	*/
-	
-
 	
 }
 
 void AAuraAffectActor::OnOverlap(AActor* TargetActor)
 {
+	const bool bIsEnemy = TargetActor->ActorHasTag(FName("Enemy"));
+	if (bIsEnemy && !bApplyEffectsToEnemies)
+	{
+		return;
+	}
+	
 	if(InstanceEffectApplicationPolicy == EEffectApplicationPolicy::AppluOnOverlap)
 	{
 		ApplyEffectToTarget(TargetActor, InstanceGameplayEffectClass);
@@ -97,6 +94,12 @@ void AAuraAffectActor::OnOverlap(AActor* TargetActor)
 
 void AAuraAffectActor::OnEndOverlap(AActor* TargetActor)
 {
+	const bool bIsEnemy = TargetActor->ActorHasTag(FName("Enemy"));
+	if (bIsEnemy && !bApplyEffectsToEnemies)
+	{
+		return;
+	}
+	
 	if(InstanceEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
 	{
 		ApplyEffectToTarget(TargetActor, InstanceGameplayEffectClass);

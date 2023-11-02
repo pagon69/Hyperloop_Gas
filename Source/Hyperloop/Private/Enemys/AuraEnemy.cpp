@@ -5,6 +5,9 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "AI/AuraAIController.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Hyperloop/Hyperloop.h"
@@ -38,6 +41,18 @@ AAuraEnemy::AAuraEnemy()
 	
 
 
+	
+}
+
+void AAuraEnemy::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if(!HasAuthority()) return; // check if on the server
+	AuraAIController = Cast<AAuraAIController>(NewController);
+
+	AuraAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset); // set and get blackboard setup
+	AuraAIController->RunBehaviorTree(BehaviorTree);
 	
 }
 
