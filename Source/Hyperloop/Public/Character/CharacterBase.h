@@ -33,16 +33,29 @@ public:
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 
+
+	/*            Combat Interface       */
+	virtual FVector GetCombatSocketLocation_Implementation() override;
+
+	virtual bool isDead_Implementation() const override;
+
+	virtual AActor* GetAvator_Implementation() override;
 	
 	virtual void Die() override;
+	/*             end    combat interface      */
+	
+	
+	
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
 	
 protected:
-	
+
 	virtual void BeginPlay() override;
 
+	bool bDead = false;
+	
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	TObjectPtr<USkeletalMeshComponent> SkeletalWeapon;
 
@@ -55,10 +68,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketNameStatic;
 
-	virtual FVector GetCombatSocketLocation() override;
 
-	
-	
 	//attribute set and ability system - not full built out
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;

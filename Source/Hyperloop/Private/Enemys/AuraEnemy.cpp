@@ -53,7 +53,12 @@ void AAuraEnemy::PossessedBy(AController* NewController)
 
 	AuraAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset); // set and get blackboard setup
 	AuraAIController->RunBehaviorTree(BehaviorTree);
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
 	
+	if(CharacterClass != ECharacterClass::Warrior)
+	{
+		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), true);
+	}
 }
 
 void AAuraEnemy::BeginPlay()
@@ -68,7 +73,7 @@ void AAuraEnemy::BeginPlay()
 
 	if(HasAuthority())
 	{
-		UAuraAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+		UAuraAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent, CharacterClass);
 	}
 	
 
@@ -137,6 +142,8 @@ void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallBackTag, int32 NewCou
 {
 	bHitReacting = NewCount > 0 ;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f :BaseWalkSpeed;
+
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
 }
 
 void AAuraEnemy::Die()
@@ -144,6 +151,16 @@ void AAuraEnemy::Die()
 	
 	SetLifeSpan(LifeSpan);
 	Super::Die();
+}
+
+void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+	CombatTarget = InCombatTarget;
+}
+
+AActor* AAuraEnemy::GetCombatTarget_Implementation()
+{
+	return CombatTarget;
 }
 
 

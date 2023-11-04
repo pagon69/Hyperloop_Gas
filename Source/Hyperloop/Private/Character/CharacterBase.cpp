@@ -86,6 +86,7 @@ void ACharacterBase::MulticastHandleDeath_Implementation()
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();
 
+	bDead = true;
 }
 
 void ACharacterBase::BeginPlay()
@@ -94,12 +95,23 @@ void ACharacterBase::BeginPlay()
 	
 }
 
-FVector ACharacterBase::GetCombatSocketLocation()
+FVector ACharacterBase::GetCombatSocketLocation_Implementation()
 {
 	check(SkeletalWeapon);
 	return SkeletalWeapon->GetSocketLocation(WeaponTipSocketNameSkeletal);
 	
 }
+
+bool ACharacterBase::isDead_Implementation() const
+{
+	return bDead;
+}
+
+AActor* ACharacterBase::GetAvator_Implementation() 
+{
+	return this;
+}
+
 
 void ACharacterBase::InitAbilityActorInfo()
 {

@@ -36,16 +36,19 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	// inputTags used to mapping actions for movement or abilities
 
 	GameplayTags.InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.LMB"), FString("responds when left mouse button is clicked"));
-	GameplayTags.InputTag_RMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.RMB "), FString("responds when right mouse button is clicked"));
-	GameplayTags.InputTag_Num1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num1"), FString("responds when the nbumber 1 key is clicked"));
-	GameplayTags.InputTag_Num2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num2"), FString("responds when the nbumber 2 key is clicked"));
-	GameplayTags.InputTag_Num3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num3"), FString("responds when the nbumber 3 key is clicked"));
-	GameplayTags.InputTag_Num4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num4"), FString("responds when the nbumber 4 key is clicked"));
+	GameplayTags.InputTag_RMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.RMB"), FString("responds when right mouse button is clicked"));
+	GameplayTags.InputTag_Num1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num1"), FString("responds when the number 1 key is clicked"));
+	GameplayTags.InputTag_Num2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num2"), FString("responds when the number 2 key is clicked"));
+	GameplayTags.InputTag_Num3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num3"), FString("responds when the number 3 key is clicked"));
+	GameplayTags.InputTag_Num4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Num4"), FString("responds when the number 4 key is clicked"));
 
 	// custom ability types
 	GameplayTags.InputTag_M = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.M"), FString("responds when the M key key is clicked"));
 	GameplayTags.InputTag_SpaceBar = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Space"), FString("responds when the space bar 4 key is clicked"));
 
+	// game play abiulities tag
+	
+	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"), FString("Tag to track when you attack"));
 	
 	//the tag for damage abilities
 	
@@ -78,5 +81,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	//the tags for effects and hit reacts can also hold long lasting tags
 
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"), FString("When hit a reaction to that effect playing"));
+
+
 	
 }

@@ -207,8 +207,12 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 						Spline->AddSplinePoint(PointLocation, ESplineCoordinateSpace::World); // how to add apoint to spline
 					//DrawDebugSphere(GetWorld(), PointLocation, 8.f, 8, FColor::Green, false, 5.f); // for testing to see what is happening and points being created
 						}
-					CacheDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
-					bAutoRunning = true;
+					if(NavPath->PathPoints.Num() > 0)
+					{
+						CacheDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
+						bAutoRunning = true;
+					}
+					
 				}
 			}
 	

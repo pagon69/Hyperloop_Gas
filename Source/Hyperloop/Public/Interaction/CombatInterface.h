@@ -28,7 +28,8 @@ class HYPERLOOP_API ICombatInterface
 public:
 	virtual int32 GetPlayerLevel();
 
-	virtual FVector GetCombatSocketLocation();
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	FVector GetCombatSocketLocation();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void UpdateFacingTarget(const FVector& Target);
@@ -36,7 +37,14 @@ public:
 	//by using blueprint native event i get a c++ function and something to use in blueprints
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage();
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	bool isDead() const;
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	AActor* GetAvator() ;
+	
+	
 	//pure virtual function so has to be implemented
 	virtual void Die() = 0 ;
 	

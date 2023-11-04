@@ -73,6 +73,10 @@ public:
 	
 	//hit react related tags
 	FGameplayTag Effects_HitReact;
+
+	//abilities tag - will start with just attack but can grow
+	FGameplayTag Abilities_Attack;
+
 	
 protected:
 

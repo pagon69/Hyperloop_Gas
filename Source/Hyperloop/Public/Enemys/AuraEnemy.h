@@ -52,7 +52,7 @@ public:
 	bool bHitReacting = false;
 
 	UPROPERTY(BlueprintReadOnly, Category="Combat")
-	float BaseWalkSpeed = 250.f;
+	float BaseWalkSpeed = 350.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	float LifeSpan = 3.f;
@@ -61,6 +61,13 @@ public:
 	void HitReactTagChanged(const FGameplayTag CallBackTag, int32 NewCount);
 
 	virtual void Die() override;
+
+	UPROPERTY(BlueprintReadWrite, Category= "Combat")
+	TObjectPtr<AActor> CombatTarget;
+
+	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
+
+	virtual AActor* GetCombatTarget_Implementation() override;
 	
 protected:
 
@@ -89,6 +96,7 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<AAuraAIController> AuraAIController;
+
 	
 private:
 	
