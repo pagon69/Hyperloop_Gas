@@ -41,7 +41,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	if(CombatInterface)
 	{
 		//uses the getter on the combat interface to get the socket name and location - updated because of changes to below line and making a interface blueprintcallable and native
-		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo());
+		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(),FAuraGameplayTags::Get().Montage_Attack_Weapon);
 		
 		//const FVector  SocketLocation = CombatInterface->Execute_GetCombatSocketLocation(); // uses the getter on the combat interface to get the socket name and location
 

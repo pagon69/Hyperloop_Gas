@@ -49,6 +49,13 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	// game play abiulities tag
 	
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"), FString("Tag to track when you attack"));
+
+
+	// tags for montages and socket locations tag
+	
+	GameplayTags.Montage_Attack_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.Weapon"), FString("Tag to track when attacking with a weapon"));
+	GameplayTags.Montage_Attack_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.LeftHand"), FString("Tag to track when attacking with left hand socket"));
+	GameplayTags.Montage_Attack_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.RightHand"), FString("Tag to track when attacking with right hand socket"));
 	
 	//the tag for damage abilities
 	

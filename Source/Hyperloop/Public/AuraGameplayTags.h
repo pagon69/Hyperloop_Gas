@@ -77,6 +77,10 @@ public:
 	//abilities tag - will start with just attack but can grow
 	FGameplayTag Abilities_Attack;
 
+	//Montage and event, socket tags
+	FGameplayTag Montage_Attack_Weapon;
+	FGameplayTag Montage_Attack_RightHand;
+	FGameplayTag Montage_Attack_LeftHand;
 	
 protected:
 

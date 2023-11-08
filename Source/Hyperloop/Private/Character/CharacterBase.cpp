@@ -4,6 +4,7 @@
 #include "Character/CharacterBase.h"
 #include "GameplayEffect.h"
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Hyperloop/Hyperloop.h"
@@ -63,6 +64,11 @@ void ACharacterBase::Die()
 	MulticastHandleDeath();
 }
 
+TArray<FTaggedMontage> ACharacterBase::GetAttackMontages_Implementation()
+{
+	return AttackMontages;
+}
+
 //what happens on client and server
 void ACharacterBase::MulticastHandleDeath_Implementation()
 {
@@ -95,10 +101,30 @@ void ACharacterBase::BeginPlay()
 	
 }
 
-FVector ACharacterBase::GetCombatSocketLocation_Implementation()
+FVector ACharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	check(SkeletalWeapon);
-	return SkeletalWeapon->GetSocketLocation(WeaponTipSocketNameSkeletal);
+	//check(SkeletalWeapon); no longer needed
+
+	//todo: return correct tag
+
+	const FAuraGameplayTags& GameplayTag = FAuraGameplayTags::Get();
+
+	if(MontageTag.MatchesTagExact(GameplayTag.Montage_Attack_Weapon) && IsValid(SkeletalWeapon))
+	{
+		return SkeletalWeapon->GetSocketLocation(WeaponTipSocketNameSkeletal);
+	}
+	
+	if(MontageTag.MatchesTagExact(GameplayTag.Montage_Attack_LeftHand) )
+	{
+		return GetMesh()->GetSocketLocation(LeftHandSocketName);
+	}
+	
+	if(MontageTag.MatchesTagExact(GameplayTag.Montage_Attack_RightHand) )
+	{
+		return GetMesh()->GetSocketLocation(RightHandSocketName);
+	}
+
+	return FVector();
 	
 }
 

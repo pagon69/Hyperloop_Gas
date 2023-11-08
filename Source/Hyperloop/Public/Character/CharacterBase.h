@@ -26,6 +26,9 @@ class HYPERLOOP_API ACharacterBase : public ACharacter, public IAbilitySystemInt
 public:
 	
 	ACharacterBase();
+
+	UPROPERTY(EditAnywhere, Category="Combat")
+	TArray<FTaggedMontage> AttackMontages;
 	
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override; //system required getter for ability system componenbt
 
@@ -35,7 +38,7 @@ public:
 
 
 	/*            Combat Interface       */
-	virtual FVector GetCombatSocketLocation_Implementation() override;
+	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
 
 	virtual bool isDead_Implementation() const override;
 
@@ -45,7 +48,7 @@ public:
 	/*             end    combat interface      */
 	
 	
-	
+	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
@@ -62,12 +65,21 @@ protected:
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	TObjectPtr<UStaticMeshComponent> StaticWeapon;
 
+	
+
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketNameSkeletal;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketNameStatic;
 
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName LeftHandSocketName;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName RightHandSocketName;
+
+	
 
 	//attribute set and ability system - not full built out
 	UPROPERTY()
