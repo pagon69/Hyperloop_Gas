@@ -59,10 +59,10 @@ protected:
 
 	bool bDead = false;
 	
-	UPROPERTY(EditAnywhere, Category= "Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Combat")
 	TObjectPtr<USkeletalMeshComponent> SkeletalWeapon;
 
-	UPROPERTY(EditAnywhere, Category= "Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "Combat")
 	TObjectPtr<UStaticMeshComponent> StaticWeapon;
 
 	

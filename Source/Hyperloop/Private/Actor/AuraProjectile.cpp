@@ -80,12 +80,12 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 	{
 		return;
 	}
-
+/*
 	if(!UAuraAbilitySystemLibrary::IsNotFriend(DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser(), OtherActor))
 	{
-		return;
+		//return;
 	}
-	
+*/	
 	if(!bHit)
 	{
 		//should i do a check for the sound effect and niagara effect ?
