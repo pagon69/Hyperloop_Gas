@@ -11,6 +11,7 @@
 
 #define CUSTOM_DEPTH_RED 250
 
+class UNiagaraSystem;
 class UGameplayAbility;
 struct FGameplayEffectSpec;
 class UAbilitySystemComponent;
@@ -105,6 +106,8 @@ protected:
 	//initializes the attributes
 	virtual void InitializeDefaultAttributes() const;
 
+	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
+	
 	void AddCharacterAbilities();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Materials") // used to switch out the material used from default to dissolving material
@@ -120,6 +123,10 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UNiagaraSystem* BloodEffect;
+	
 private:
 	
 	UPROPERTY(EditAnywhere, Category= "Abilities")
