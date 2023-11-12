@@ -1,0 +1,48 @@
+Making new enemy steps:
+
+
+1.Make blueprint based on Enemy Character base
+	- create child blueprint based on BP_AuraEnemyBase
+
+2. make animation blueprint based on skeleton
+	- make child blueprint of a previous ABP_ enemy 
+	- select skeleton
+	- make a BS for movement
+	- add to ABP blueprint
+
+3. set up BP_of enemy just created
+	- set Mesh
+	- set HitReact
+	- set attack Montages
+	- set Hit sound
+	- set animation blueprint - abp_demon
+	-set capsule size
+
+
+
+4. setup sockets for attacking
+
+
+5. setup dissolve material
+	- copy old dissolve and edit for new
+
+
+6. setup attack montages
+	- create montages
+	- attach Montage tag -
+	-setup socket tags
+	-setup impact sounds
+
+
+7. confirm weapon tip socket
+	- add weapon tipsocket for weapon or left and right hands
+
+
+8. set base walk speed and otehr tweaks
+	- base work speed set
+
+9. setup root motion, motion warping, sounds on animations
+	- motion warping - set to faCING TARGET , uncheck warp tranlation, rotation type to facing
+	- event notifies
+	- sounds
+	- foot steps

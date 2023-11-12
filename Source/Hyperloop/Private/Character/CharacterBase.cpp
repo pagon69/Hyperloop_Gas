@@ -8,6 +8,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Hyperloop/Hyperloop.h"
+#include "Kismet/GameplayStatics.h"
 
 ACharacterBase::ACharacterBase()
 {
@@ -30,7 +31,7 @@ ACharacterBase::ACharacterBase()
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
 	
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
-	GetMesh()->SetGenerateOverlapEvents(true); //needed for players and enemys
+	GetMesh()->SetGenerateOverlapEvents(true); //needed for players and enemy's
 	
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap); // is this correct ?
 
@@ -47,7 +48,7 @@ UAnimMontage* ACharacterBase::GetHitReactMontage_Implementation()
 	return HitReactMontage;
 }
 
-//handles hwta happens only on server
+//handles what happens only on server
 void ACharacterBase::Die()
 {
 	if(StaticWeapon) // checks to make sure a weapon is made
@@ -57,11 +58,25 @@ void ACharacterBase::Die()
 	
 	if(SkeletalWeapon) // what happens if nothing is attached ?
 	{
-		//will this run if they dont have anythign attached ?
+		//will this run if they dont have anything attached ?
 		SkeletalWeapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
 	}
 
 	MulticastHandleDeath();
+}
+
+FTaggedMontage ACharacterBase::GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag)
+{
+	
+	for (FTaggedMontage TaggedMontage : AttackMontages)
+	{
+		if(TaggedMontage.MontageTag == MontageTag)
+		{
+			return TaggedMontage;
+		}
+	}
+	
+	return FTaggedMontage();
 }
 
 TArray<FTaggedMontage> ACharacterBase::GetAttackMontages_Implementation()
@@ -72,6 +87,8 @@ TArray<FTaggedMontage> ACharacterBase::GetAttackMontages_Implementation()
 //what happens on client and server
 void ACharacterBase::MulticastHandleDeath_Implementation()
 {
+	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
+	
     //drops weapons properties
 	SkeletalWeapon->SetSimulatePhysics(true);
 	SkeletalWeapon->SetEnableGravity(true);
@@ -86,9 +103,9 @@ void ACharacterBase::MulticastHandleDeath_Implementation()
 	GetMesh()->SetEnableGravity(true);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
-	//todo: add impluse coming from impact of fireball to knock back body after death
+	//todo: add impulse coming from impact of fireball to knock back body after death
 
-	//makes the capsule not block me for death enemys
+	//makes the capsule not block me for death enemies
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();
 
@@ -109,19 +126,24 @@ FVector ACharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTa
 
 	const FAuraGameplayTags& GameplayTag = FAuraGameplayTags::Get();
 
-	if(MontageTag.MatchesTagExact(GameplayTag.Montage_Attack_Weapon) && IsValid(SkeletalWeapon))
+	if(MontageTag.MatchesTagExact(GameplayTag.CombatSocket_Weapon) && IsValid(SkeletalWeapon))
 	{
 		return SkeletalWeapon->GetSocketLocation(WeaponTipSocketNameSkeletal);
 	}
 	
-	if(MontageTag.MatchesTagExact(GameplayTag.Montage_Attack_LeftHand) )
+	if(MontageTag.MatchesTagExact(GameplayTag.CombatSocket_LeftHand) )
 	{
 		return GetMesh()->GetSocketLocation(LeftHandSocketName);
 	}
 	
-	if(MontageTag.MatchesTagExact(GameplayTag.Montage_Attack_RightHand) )
+	if(MontageTag.MatchesTagExact(GameplayTag.CombatSocket_RightHand) )
 	{
 		return GetMesh()->GetSocketLocation(RightHandSocketName);
+	}
+
+	if(MontageTag.MatchesTagExact(GameplayTag.CombatSocket_Tail) )
+	{
+		return GetMesh()->GetSocketLocation(TailSocketName);
 	}
 
 	return FVector();
@@ -189,9 +211,9 @@ void ACharacterBase::Dissolve()
 	if(IsValid(DissolveMaterialInstance))
 	{
 		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
-		GetMesh()->SetMaterial(0, DynamicMatInst); //if i have mutilple materials on the Mixamo objects then i have to make multiple dynamicMatInst
+		GetMesh()->SetMaterial(0, DynamicMatInst); //if i have multiple materials on the Mixamo objects then i have to make multiple dynamicMatInst
 
-		GetMesh()->SetMaterial(1, DynamicMatInst); //if i have mutilple materials on the Mixamo objects then i have to make multiple dynamicMatInst
+		GetMesh()->SetMaterial(1, DynamicMatInst); //if i have multiple materials on the Mixamo objects then i have to make multiple dynamicMatInst
 
 		StartDissolveTimeline(DynamicMatInst);
 		
@@ -200,7 +222,7 @@ void ACharacterBase::Dissolve()
 	if(IsValid(WeaponDissolveMaterialInstance))
 	{
 		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
-		SkeletalWeapon->SetMaterial(0, DynamicMatInst); //if i have mutilple materials on the Mixamo objects then i have to make multiple dynamicMatInst
+		SkeletalWeapon->SetMaterial(0, DynamicMatInst); //if i have multiple materials on the Mixamo objects then i have to make multiple dynamicMatInst
 
 		
 		StartWeaponDissolveTimeline(DynamicMatInst);
@@ -209,7 +231,7 @@ void ACharacterBase::Dissolve()
 	if(IsValid(WeaponDissolveMaterialInstance))
 	{
 		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
-		StaticWeapon->SetMaterial(0, DynamicMatInst); //if i have mutilple materials on the Mixamo objects then i have to make multiple dynamicMatInst
+		StaticWeapon->SetMaterial(0, DynamicMatInst); //if i have multiple materials on the Mixamo objects then i have to make multiple dynamicMatInst
 
 	
 		StartWeaponDissolveTimeline(DynamicMatInst);

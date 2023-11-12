@@ -47,7 +47,8 @@ public:
 	
 	virtual void Die() override;
 	/*             end    combat interface      */
-	
+
+	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag);
 	
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
 
@@ -80,6 +81,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName RightHandSocketName;
 
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName TailSocketName;
 	
 
 	//attribute set and ability system - not full built out
@@ -118,21 +121,25 @@ protected:
 
 	void Dissolve();
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, Category= "Materials")
 	void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, Category= "Materials")
 	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	UNiagaraSystem* BloodEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	USoundBase* DeathSound;
+
 	
 private:
 	
 	UPROPERTY(EditAnywhere, Category= "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartUpAbilities;
 
-	UPROPERTY(EditAnywhere, Category= "Abilities")
+	UPROPERTY(EditAnywhere, Category= "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
 
 	
