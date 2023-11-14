@@ -36,6 +36,7 @@ Making new enemy steps:
 
 7. confirm weapon tip socket
 	- add weapon tipsocket for weapon or left and right hands
+	- add a new socket name in c++ if weapon, laft,right and tail doesnt work
 
 
 8. set base walk speed and otehr tweaks
@@ -46,3 +47,5 @@ Making new enemy steps:
 	- event notifies
 	- sounds
 	- foot steps
+
+10. setup abilities if needed
