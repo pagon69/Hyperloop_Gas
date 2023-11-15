@@ -49,6 +49,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	// game play abiulities tag
 	
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"), FString("Tag to track when you attack"));
+	GameplayTags.Abilities_Summon = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Summon"), FString("Tag to track when you summon monsters"));
 
 
 	// tags for socket locations tag

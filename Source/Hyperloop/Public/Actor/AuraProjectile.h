@@ -27,7 +27,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = true))
 	FGameplayEffectSpecHandle DamageEffectSpecHandle;
-	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<USphereComponent> Sphere;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -41,8 +43,7 @@ protected:
 
 	
 private:
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USphereComponent> Sphere;
+	
 
 	UPROPERTY(EditAnywhere) //for when it hits something
 	TObjectPtr<UNiagaraSystem> ImpactEffect;

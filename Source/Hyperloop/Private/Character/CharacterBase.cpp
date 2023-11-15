@@ -239,6 +239,16 @@ void ACharacterBase::Dissolve()
 	
 }
 
+int32 ACharacterBase::GetMinionCount_Implementation()
+{
+	return MinionCount;
+}
+
+void ACharacterBase::IncrementMinionCount_Implementation(int32 Amount)
+{
+	MinionCount += Amount;
+}
+
 
 
 

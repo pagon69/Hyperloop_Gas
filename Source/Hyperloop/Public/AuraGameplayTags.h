@@ -76,6 +76,7 @@ public:
 
 	//abilities tag - will start with just attack but can grow
 	FGameplayTag Abilities_Attack;
+	FGameplayTag Abilities_Summon;
 
 	//Socket tags
 	FGameplayTag CombatSocket_Weapon;
