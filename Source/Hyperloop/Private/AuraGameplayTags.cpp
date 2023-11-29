@@ -46,10 +46,13 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.InputTag_M = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.M"), FString("responds when the M key key is clicked"));
 	GameplayTags.InputTag_SpaceBar = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Space"), FString("responds when the space bar 4 key is clicked"));
 
-	// game play abiulities tag
+	// game play abilities tag
 	
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"), FString("Tag to track when you attack"));
 	GameplayTags.Abilities_Summon = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Summon"), FString("Tag to track when you summon monsters"));
+
+	//spells and abilities for skills
+	GameplayTags.Abilities_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Fire.FireBolt"), FString("Firebolt spell tag"));
 
 
 	// tags for socket locations tag

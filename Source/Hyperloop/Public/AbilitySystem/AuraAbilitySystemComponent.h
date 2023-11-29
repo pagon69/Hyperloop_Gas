@@ -9,6 +9,12 @@
 //how to declare delagates
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer&) /* Asset Tags */ 
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FAbilitiesGiven, UAuraAbilitySystemComponent*); /* used to give abilities */ 
+
+//
+DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
+
+
 /**
  * 
  */
@@ -22,10 +28,22 @@ public:
 
 	FEffectAssetTags EffectAssetTags; //declares the delegate function
 
+	FAbilitiesGiven AbilitiesGivenDelegate; //used to give abilities
+
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartUpAbilities);
+
+	bool bStartupAbilitiesGiven = false;
 
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 	void AbilityInputTagRelease(const FGameplayTag& InputTag);
+
+	void ForEachAbility(const FForEachAbility& Delegate);
+
+
+	//helper functions for getting tag info
+	static FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+
+	static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	
 protected:
 

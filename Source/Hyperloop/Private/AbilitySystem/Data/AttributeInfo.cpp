@@ -3,6 +3,8 @@
 
 #include "AbilitySystem/Data/AttributeInfo.h"
 
+#include "Hyperloop/AuraLogChannels.h"
+
 
 //checks for the tag 
 FAuraAttributeInfo UAttributeInfo::FindAttributeInfoFromTag(const FGameplayTag& AttributeTag, bool bLogNotFound)
@@ -18,8 +20,9 @@ FAuraAttributeInfo UAttributeInfo::FindAttributeInfoFromTag(const FGameplayTag& 
 
 	if(bLogNotFound)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Cant find Info for attributeTag [%s] on AttributeInfo [%s]."), *AttributeTag.ToString(),*GetNameSafe(this));
+		UE_LOG(LogAura, Error, TEXT("Cant find Info for attributeTag [%s] on AttributeInfo [%s]."), *AttributeTag.ToString(),*GetNameSafe(this));
 	}
+	
 
 	return FAuraAttributeInfo();
 }

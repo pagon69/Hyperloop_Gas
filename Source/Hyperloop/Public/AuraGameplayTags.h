@@ -56,7 +56,7 @@ public:
 
 	FGameplayTag InputTag_M;
 	FGameplayTag InputTag_SpaceBar;
-
+	
 	// damage related tags
 	FGameplayTag Damage;
 
@@ -77,6 +77,8 @@ public:
 	//abilities tag - will start with just attack but can grow
 	FGameplayTag Abilities_Attack;
 	FGameplayTag Abilities_Summon;
+
+	FGameplayTag Abilities_Fire_FireBolt;
 
 	//Socket tags
 	FGameplayTag CombatSocket_Weapon;
