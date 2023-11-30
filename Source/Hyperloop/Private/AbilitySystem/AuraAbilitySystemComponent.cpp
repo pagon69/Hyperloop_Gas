@@ -11,7 +11,7 @@
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
 	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::ClientEffectApplied);
-
+	//OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::server);
 	const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
 
 	//GameplayTags.
@@ -89,14 +89,17 @@ void UAuraAbilitySystemComponent::ForEachAbility(const FForEachAbility& Delegate
 //checks for the abilities tag so we are sure we have a skill
 FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
 {
+	
 	if(AbilitySpec.Ability)
 	{
+		
 		for(FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags)
 		{
 			
 			if(Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Abilities"))))
 			{
 				return Tag;
+				
 			}
 			
 		}
@@ -108,15 +111,30 @@ FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayA
 //checks and looks through gameplay tags for the input tags
 FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
 {
+	
 	for (FGameplayTag Tag : AbilitySpec.DynamicAbilityTags)
 	{
+		
 		if(Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("InputTag"))))
 		{
 			return Tag;
+			
 		}
 	}
 
 	return FGameplayTag();
+}
+
+void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
+{
+	Super::OnRep_ActivateAbilities();
+
+	if(!bStartupAbilitiesGiven)
+	{
+		bStartupAbilitiesGiven = true;
+		AbilitiesGivenDelegate.Broadcast(this);
+	}
+	
 }
 
 void UAuraAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)

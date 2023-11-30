@@ -181,7 +181,7 @@ void UOverlay_AuraWidgetController::OnInitializeStartupAbilities(UAuraAbilitySys
 {
 	//todo: get info about all given abilities, then look up and broadcast
 
-	if(AuraAbilitySystemComponent->bStartupAbilitiesGiven) return;
+	if(!AuraAbilitySystemComponent->bStartupAbilitiesGiven) return;
 
 	//the search happens here
 	FForEachAbility BroadCastDelegate;

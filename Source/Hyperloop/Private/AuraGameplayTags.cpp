@@ -51,10 +51,13 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"), FString("Tag to track when you attack"));
 	GameplayTags.Abilities_Summon = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Summon"), FString("Tag to track when you summon monsters"));
 
-	//spells and abilities for skills
+	//spells and abilities for skills  --- step 2 make the below
 	GameplayTags.Abilities_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Fire.FireBolt"), FString("Firebolt spell tag"));
+	
+	//cooldown adding tags -- need to make cooldowns for each so i can yse the cooldown function
+	GameplayTags.Cooldown_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Fire.FireBolt"), FString("the cooldown for the Firebolt spell"));
 
-
+	
 	// tags for socket locations tag
 	
 	GameplayTags.CombatSocket_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("CombatSocket.Weapon"), FString("related to the socket name on a skeleton- this for the weapon"));

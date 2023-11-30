@@ -77,9 +77,12 @@ public:
 	//abilities tag - will start with just attack but can grow
 	FGameplayTag Abilities_Attack;
 	FGameplayTag Abilities_Summon;
+	FGameplayTag Abilities_Fire_FireBolt;  //multiple steps for making tags - create the tag -  
+	
+	//cooldown tags
+	FGameplayTag Cooldown_Fire_FireBolt; //make a cooldown tag for each ability i make
 
-	FGameplayTag Abilities_Fire_FireBolt;
-
+	
 	//Socket tags
 	FGameplayTag CombatSocket_Weapon;
 	FGameplayTag CombatSocket_RightHand;
